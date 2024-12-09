@@ -1,0 +1,2537 @@
+window.DigitalFeedback['https://digitalfeedback.us.confirmit.com/api/digitalfeedback/loader/prod/scenario?programKey=wxdDyE&scenarioId=11240&programVersion=150'] = function (api) {
+// this section is updated on 9/1 to update the activation rules to 30seconds and 30 days for Community survey p381748262651
+// code referenced from Combined-Transition 8/25 container
+//this code is again updated on 9/10 to update the survey rules to 2 seconds 2page clicks and 30 day faiguing rules
+//this code is further updated on 12/11 to add warranty info to support exit survey and topic create and age days to community exit survey
+//Community survey p381748262651 rule updated to 90 day fatigue rule on 16th Nov.
+//updated the code from 1463 to run new yes/no survey in pcsupport website
+//updated the code to add support.lenovo.com domain to accept respnoses from new yes/no survey.
+															 
+
+
+console.log('CONF - 20231114v1');
+var showLog = true;
+ConfirmitCookies = {set:function(b,c,a){b=[encodeURIComponent(b)+"="+encodeURIComponent(c)];a&&("expiry"in a&&("number"==typeof a.expiry&&(a.expiry=new Date(1E3*a.expiry+ +new Date)),b.push("expires="+a.expiry.toGMTString())),"domain"in a&&b.push("domain="+a.domain),"path"in a&&b.push("path="+a.path),"secure"in a&&a.secure&&b.push("secure"),"samesite"in a&&b.push("SameSite="+a.samesite));document.cookie=b.join("; ")},get:function(b,c){for(var a=[],e=document.cookie.split(/; */),d=0;d<e.length;d++){var f=e[d].split("=");f[0]==encodeURIComponent(b)&&a.push(decodeURIComponent(f[1].replace(/\+/g,"%20")))}return c?a:a[0]},clear:function(b,c){c||(c={});c.expiry=-86400;this.set(b,"",c)}};
+
+ConfirmitLog = function(show,string)
+{
+  if(show)
+  {
+    console.log(string);
+  }
+}
+
+getMeta = function(metaName) {
+  const metas = document.getElementsByTagName('meta');
+
+  for (let i = 0; i < metas.length; i++) {
+    if (metas[i].getAttribute('name') === metaName) {
+      return metas[i].getAttribute('content');
+    }
+  }
+
+  return '';
+}
+
+getLCCCURL = function()
+{
+var testurl = document.getElementById("ConfiritTestUrl");
+if(testurl)
+{
+  var url = testurl.value;
+}
+else
+{
+  var url = ""+document.location.href;
+}
+  ConfirmitLog(showLog,url);
+  
+var a1 = url.split("://");
+var str2 = a1[1];
+var a2 = str2.split("/");
+var cnty = a2[1];
+var lng = a2[2].substr(0,2);
+return {"cc" : cnty, "lc" : lng};
+}
+
+env = "L";
+lpd = "20230110v1";
+
+ConfirmitLog(showLog,env+ ":" + lpd)
+
+
+getLang = function(languagecode, countrycode, projectid)
+{
+ var lstr = ""+languagecode;
+ var lstrlc = lstr.toLowerCase();
+ 
+ var lcc = ""+countrycode;
+ var lcclc = lcc.toLowerCase();
+ 
+ var pno = ""+projectid;
+ var pnolc = pno.toLowerCase();
+ 
+switch(""+pnolc)
+{
+	case "p689671841256":
+					
+   
+				 
+   
+					
+   
+				
+   
+																																														   
+   
+			  
+   
+	   
+					  
+		if(lstrlc == "es")
+		{
+		return "40970";
+		}
+		if(lstrlc == "pt")
+		{
+		return "1046";
+		}
+		if( !(lstrlc == 'it' || lstrlc == 'en' || lstrlc == 'fr' || lstrlc == 'de' || lstrlc == 'id' || lstrlc == 'ja' || lstrlc == 'ko' || lstrlc == 'pt' || lstrlc == 'ru' || lstrlc == 'es') )
+		{
+		return "9"; 
+		}
+	break;
+	case "p3094258117":
+		if(lstrlc == "pt")
+		{
+		return "1046";
+		}
+		if(lstrlc == "sp")
+		{
+		return "10";
+		}
+	break;
+}
+  
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  var lngCodes = {
+  "en" : "9",
+  "tw" : "1028",
+  "da" : "6",
+  "nl" : "19",
+  "en" : "9",
+  "fi" : "11",
+  "fr" : "12",
+  "de" : "7",
+  "it" : "16",
+  "ja" : "17",
+  "ko" : "18",
+  "no" : "20",
+  "pt" : "22",
+  "pt_br" : "1046",
+  "es" : "10",
+  "es_mx" : "10",
+  "sp" : "40970",
+  "sw" : "29",
+  "th" : "30",
+  "ru" : "25",
+  "id" : "32801",
+  "zh" : "4",
+  "sk" : "5",
+  "cs" : "5",
+  "pl" : "21",
+  "uk" : "34",
+  "ua" : "34",
+  "tr" : "31"
+ }
+
+	if(lstrlc == 'es' && lcclc == 'mx')
+	{
+		return lngCodes['es_mx'];
+	}
+	else if (lstrlc == 'pt' && lcclc == 'br')
+	{
+		return lngCodes['pt_br'];
+	}
+	else if(lngCodes[lstrlc])
+	{
+		return lngCodes[lstrlc];
+	}
+	else
+	{
+		return lngCodes['en'];
+    }
+}
+
+
+getNewTxts = function(languagecode,countrycode,projectid)
+{
+ var lstr = ""+languagecode;
+ var lstrlc = lstr.toLowerCase();
+ var lcc = ""+countrycode;
+ var lcclc = lcc.toLowerCase();
+ var pno = ""+projectid;
+ var pnolc = pno.toLowerCase();
+ 
+console.log("languagecode: " + languagecode);
+console.log("countrycode: " + countrycode);
+console.log("lstrlc: " + lstrlc);
+console.log("lcclc: " + lcclc);
+  
+ var txts = {
+   
+    "en" : {
+	"l1": "We value your opinion!",
+"l2": "Have your questions or issues been resolved?",
+"l6": "(You can provide feedback either way.)",      
+"b3": "I have some feedback to share.",  
+"l0": "Thanks for the feedback.",
+
+	"b1": "No",
+	"b2": "Yes",
+	"l3": "Do you want to stay on the forums to get help, or get help on another support channel?",
+	"b5": "Stay Here",
+	"b4": "Other support",
+	"l4": "Thank you. We hope to get your feedback when you are ready. You can always use the Feedback button on every page.",
+	"b6": "Close",
+	
+    "al1" : "Feedback dialog",
+    "al2" : "Close feedback dialog",
+    "al3" : "Yes, this will open a new window",
+    },
+
+	"de" : {
+	"l1": "Wir schätzen Ihre Meinung!",
+"l2": "Wurden Ihre Fragen oder Probleme gelöst?",
+"l6": "(Sie können Ihr Feedback trotzdem übermitteln.)",
+"b3": "Ich habe ein Feedback zu teilen.",
+"l0": "Vielen Dank für Euer Feedback.",
+
+	"b1": "Nein",
+	"b2": "Ja",
+	"l3": "Möchten Sie in den Foren bleiben, um Hilfe zu erhalten, oder Hilfe über einen anderen Support-Kanal erhalten?",
+	"b5": "Hier bleiben",
+	"b4": "Anderer Support",
+	"l4": "Danke. Wir hoffen, Ihr Feedback zu erhalten, wenn Sie bereit sind. Sie können jederzeit den Feedback-Drücker auf jeder Seite verwenden.",
+	"b6": "Schließen",
+
+	"al3" : "Ja, dies wird in einem neuen Fenster geöffnet",
+	"al1" : "Dialogfeld Feedback",
+	"al2" : "Dialogfeld Feedback schließen",
+	},
+
+	"es" : {
+	"l1": "¡Valoramos tu opinión!",
+"l2": "¿Se han resuelto tus dudas o problemas?",
+"l6": "(Puedes proporcionar comentarios de cualquier manera).",
+"b3": "Tengo algunos comentarios para compartir.",
+"l0": "Gracias por tus comentarios.",
+
+	"b1": "No",
+	"b2": "Sí",
+	"l3": "¿Desea permanecer en los foros para obtener ayuda u obtener ayuda en otro canal de soporte?",
+	"b5": "Quiero quedarme aquí",
+	"b4": "Otro Soporte",
+	"l4": "Gracias. Esperamos recibir sus comentarios cuando esté listo. Siempre puede usar el botón Comentarios en cada página.",
+	"b6": "Cerrar",
+
+	"al3" : "Sí, esto se abrirá en una ventana nueva",
+	"al1" : "Cuadro de diálogo de comentarios",
+	"al2" : "Cerrar el cuadro de diálogo de comentarios",
+	},
+
+	"pt" : {
+	"l1": "Valorizamos a sua opinião!",
+"l2": "Suas dúvidas ou problemas foram resolvidos?",
+"l6": "(Você pode fornecer feedback de qualquer maneira.)",
+"b3": "Tenho alguns comentários para compartilhar.",
+"l0": "Obrigado pelo feedback.",
+
+	"b1": "Não",
+	"b2": "Sim",
+	"l3": "Deseja permanecer nos fóruns para obter ajuda ou obter ajuda em outro canal de suporte?",
+	"b5": "Eu quero ficar aqui",
+	"b4": "Outros suportes",
+	"l4": "Obrigado. Estamos ansiosos para receber seu feedback quando estiver pronto. Você sempre pode usar o botão Feedback em todas as páginas.",
+	"b6": "Fechar",
+
+	"al3" : "Será aberta uma nova janela",
+	"al1" : "Caixa de diálogo de feedback",
+	"al2" : "Fechar caixa de diálogo de feedback",
+	},
+
+	"ru" : {
+	"l1": "Мы ценим Ваше мнение!",
+"l2": "Были ли решены Ваши вопросы или проблемы?",
+"l6": "(Вы можете оставить отзыв в любом случае.)",
+"b3": "У меня есть несколько комментариев, которыми я могу поделиться.",
+"l0": "Спасибо за отзыв.",
+
+	"b1": "Нет",
+	"b2": "Да",
+	"l3": "Вы хотите остаться на форумах, чтобы получить помощь, или получить помощь по другому каналу поддержки?",
+	"b5": "Остаться здесь",
+	"b4": "Другая поддержка",
+	"l4": "Спасибо. Мы надеемся получить Ваши отзывы, когда Вы будете готовы. Вы всегда можете воспользоваться кнопкой Обратной связи на каждой странице.",
+	"b6": "Закрыть",
+
+	"al3" : "Да, откроется новое окно",
+	"al1" : "Диалоговое окно с формой обратной связи",
+	"al2" : "Закрыть диалоговое окно с формой обратной связи",
+	},
+
+	"es_mx" : {
+	"l1": "¡Valoramos tu opinión!",
+"l2": "¿Se han resuelto tus dudas o problemas?",
+"l6": "(Puedes proporcionar comentarios de cualquier manera).",
+"b3": "Tengo algunos comentarios para compartir.",
+"l0": "Gracias por tus comentarios.",
+	"b1": "No",
+	"b2": "Sí",
+	"l3": "¿Desea permanecer en los foros para obtener ayuda u obtener ayuda en otro canal de soporte?",
+	"b5": "Quiero quedarme aquí",
+	"b4": "Otro Soporte",
+	"l4": "Gracias. Esperamos recibir sus comentarios cuando esté listo. Siempre puede usar el botón Comentarios en cada página.",
+	"b6": "Cerrar",
+	
+	"al3" : "Sí, esto se abrirá en una nueva ventana",
+	"al1" : "Diálogo de opiniones",
+	"al2" : "Cerrar diálogo de opiniones",
+	},
+
+	"pt_br" : {
+	"l1": "Valorizamos a sua opinião!",
+"l2": "Suas dúvidas ou problemas foram resolvidos?",
+"l6": "(Você pode fornecer feedback de qualquer maneira.)",
+"b3": "Tenho alguns comentários para compartilhar.",
+"l0": "Obrigado pelo feedback.",
+	"b1": "Não",
+	"b2": "Sim",
+	"l3": "Deseja permanecer nos fóruns para obter ajuda ou obter ajuda em outro canal de suporte?",
+	"b5": "Eu quero ficar aqui",
+	"b4": "Outros suportes",
+	"l4": "Obrigado. Estamos ansiosos para receber seu feedback quando estiver pronto. Você sempre pode usar o botão Feedback em todas as páginas.",
+	"b6": "Fechar",
+
+	"al3" : "Sim, ela será aberta em uma nova janela",
+	"al1" : "Caixa de diálogo Feedback",
+	"al2" : "Fechar a caixa de diálogo Feedback",
+	},
+   
+	"cs" : {
+	"l1": "Vážíme si vašeho názoru!",
+"l2": "Byly Vaše otázky nebo problémy vyřešeny?",
+"l6": "(Vaši zpětnou vazbu můžete přesto odeslat.)",
+"b3": "Chci se podělit o zpětnou vazbu.",
+"l0": "Děkujeme za Vaši zpětnou vazbu.",
+
+	"b1": "Ne",
+	"b2": "Ano",
+	"l3": "Chcete zůstat a obdržet pomoc na fórech, nebo chcete obdržet pomoc na jiném kanálu podpory?",
+	"b5": "Zůstat zde",
+	"b4": "Jiná podpora",
+	"l4": "Děkujeme. Doufáme, že až budete připraveni, obdržíme vaši zpětnou vazbu. Na každé stránce můžete vždy použít tlačítko Zpětná vazba.",
+	"b6": "Zavřít",
+
+	"al3" : "Ano, toto se otevře v novém okně",
+	"al1" : "Dialog odezvy",
+	"al2" : "Uzavřít dialog odezvy",
+	},
+	
+	"sk" : {
+	"l1": "Vážíme si vašeho názoru!",
+"l2": "Byly Vaše otázky nebo problémy vyřešeny?",
+"l6": "(Vaši zpětnou vazbu můžete přesto odeslat.)",
+"b3": "Chci se podělit o zpětnou vazbu.",
+"l0": "Děkujeme za Vaši zpětnou vazbu.",
+
+	"b1": "Ne",
+	"b2": "Ano",
+	"l3": "Chcete zůstat a obdržet pomoc na fórech, nebo chcete obdržet pomoc na jiném kanálu podpory?",
+	"b5": "Zůstat zde",
+	"b4": "Jiná podpora",
+	"l4": "Děkujeme. Doufáme, že až budete připraveni, obdržíme vaši zpětnou vazbu. Na každé stránce můžete vždy použít tlačítko Zpětná vazba.",
+	"b6": "Zavřít",
+	
+	"al3" : "Ano, toto se otevře v novém okně",
+	"al1" : "Dialog odezvy",
+	"al2" : "Uzavřít dialog odezvy",
+	},
+
+	"tr" : {
+	"l1": "Geri bildiriminiz bizim için önemlidir!",
+"l2": "Sorularınız veya sorunlarınız çözüldü mü?",
+"l6": "(Her iki şekilde de geri bildirim sağlayabilirsiniz.)",
+"b3": "Paylaşacak bazı geri bildirimlerim var.",
+"l0": "Geri bildiriminiz için teşekkür ederiz.",
+
+	"b1": "Hayır",
+	"b2": "Evet",
+	"l3": "Yardım almak için forumlarda kalmak mı yoksa başka bir destek kanalından yardım almak mı istiyorsunuz?",
+	"b5": "Burada kalmak istiyorum",
+	"b4": "Başka destek",
+	"l4": "Teşekkür ederiz. Hazır olduğunuzda geri bildiriminizi almayı umuyoruz. Forum sayfasında her zaman Geri Bildirim düğmesini kullanabilirsiniz.",
+	"b6": "Kapat",
+	
+	"al3" : "Evet, bu yeni bir pencerede açılacak",
+	"al1" : "Geri bildirim iletişim kutusu",
+	"al2" : "Geri bildirim iletişim kutusunu kapat",
+	},
+
+	"uk" : {
+	"l1": "Ми цінуємо Вашу думку!",
+"l2": "Чи були вирішені Ваші питання або проблеми?",
+"l6": "(Ви можете залишити відгук у будь-якому випадку.)",
+"b3": "У мене є кілька коментарів, якими я можу поділитися.",
+"l0": "Дякуємо за відгук.",
+
+	"b1": "Ні",
+	"b2": "Так",
+	"l3": "Ви хочете залишитися на форумах, щоб отримати допомогу, або отримати допомогу по іншому каналу підтримки?",
+	"b5": "Залишитися тут",
+	"b4": "Інша підтримка",
+	"l4": "Дякую. Ми сподіваємося отримати Ваші відгуки, коли Ви будете готові. Ви завжди можете скористатися кнопкою Зворотного зв'язку на кожній сторінці.",
+	"b6": "Закрити",
+
+	"al3" : "Так, це відкриється в новому вікні",
+	"al1" : "Діалогове вікно відгуку",
+	"al2" : "Закрити діалогове вікно відгуку",
+	},
+
+	"ua" : {
+	"l1": "Ми цінуємо Вашу думку!",
+"l2": "Чи були вирішені Ваші питання або проблеми?",
+"l6": "(Ви можете залишити відгук у будь-якому випадку.)",
+"b3": "У мене є кілька коментарів, якими я можу поділитися.",
+"l0": "Дякуємо за відгук.",
+
+	"b1": "Ні",
+	"b2": "Так",
+	"l3": "Ви хочете залишитися на форумах, щоб отримати допомогу, або отримати допомогу по іншому каналу підтримки?",
+	"b5": "Залишитися тут",
+	"b4": "Інша підтримка",
+	"l4": "Дякую. Ми сподіваємося отримати Ваші відгуки, коли Ви будете готові. Ви завжди можете скористатися кнопкою Зворотного зв'язку на кожній сторінці.",
+	"b6": "Закрити",
+	
+	"al3" : "Так, це відкриється в новому вікні",
+	"al1" : "Діалогове вікно відгуку",
+	"al2" : "Закрити діалогове вікно відгуку",
+	},
+   
+	"pl" : {
+	"l1": "Cenimy Twoją opinię!",
+"l2": "Czy Twoje pytania lub problemy zostały rozwiązane?",
+"l6": "(Możesz przekazać opinię tak czy inaczej).",
+"b3": "Chcę podzielić się swoją opinią.",
+"l0": "Dziękujemy za Twoją opinię.",
+
+	"b1": "No",
+	"b2": "Tak",
+	"l3": "Czy chcesz pozostać na forach, aby uzyskać pomoc, czy uzyskać pomoc na innym kanale pomocy?",
+	"b5": "Chcę zostać tutaj",
+	"b4": "Inna pomoc",
+	"l4": "Dziękujemy. Mamy nadzieję, że otrzymamy Twoją opinię, gdy będziesz gotowy. Zawsze możesz użyć przycisku Feedback na forum.",
+	"b6": "Zamknij",
+
+	"al3" : "Tak, zostanie otwarte w nowym okienku",
+	"al1" : "Okienko informacyjne informacji zwrotnych",
+	"al2" : "Zamknij okienko informacyjne informacji zwrotnych",
+	},
+  
+}
+		
+	if(lstrlc == 'es' && lcclc == 'mx')
+	{
+		return txts['es_mx'];
+	}
+	else if (lstrlc == 'pt' && lcclc == 'br')
+	{
+		return txts['pt_br'];
+	}
+	else if(txts[lstrlc])
+	{
+		return txts[lstrlc];
+	}
+	else
+	{
+		return txts['en'];
+    }
+}
+
+
+ConfirmitLog(showLog,'translated exit invite texts v3.0')
+
+getTxts = function(languagecode,countrycode,projectid)
+{
+ var lstr = ""+languagecode;
+ var lstrlc = lstr.toLowerCase();
+ var lcc = ""+countrycode;
+ var lcclc = lcc.toLowerCase();
+ var pno = ""+projectid;
+ var pnolc = pno.toLowerCase();
+ 
+ConfirmitLog(showLog,"languagecode: " + languagecode);
+ConfirmitLog(showLog,"countrycode: " + countrycode);
+ConfirmitLog(showLog,"lstrlc: " + lstrlc);
+ConfirmitLog(showLog,"lcclc: " + lcclc);
+  
+ var txts = {
+   
+    "en" : {
+	  
+    "e1" : "We Welcome Your Feedback!",
+    "e2" : "Your feedback is important to us.  Please take a moment to tell us about the service you received.",
+    "eb1" : "Take Survey",
+    "eb2" : "Email Me Later",
+
+    "l1" : "We value your opinion!",
+    "l2" : "After your visit, would you be willing to provide some quick feedback? It will only take a minute.",
+    "b1" : "Yes",
+	"al3" : "Yes, this will open a new window",
+    "b2" : "No Thanks",
+    "al1" : "Feedback dialog",
+    "al2" : "Close feedback dialog",
+											   
+    },
+
+	"zh" : {
+	"l1" : "我們重視您的意見！",
+	"l2" : "瀏覽網站之後，您可以提供一些簡短意見嗎？過程只需一分鐘。",
+	"b1" : "是",
+	"al3" : "是, 系統將會開啟新視窗。",
+	"b2" : "不用了，謝謝",
+	"al1" : "反饋對話框",
+	"al2" : "結束對話",
+	},
+
+	"da" : {
+	"l1" : "Vi sætter pris på din mening",
+	"l2" : "Er du interesseret i at kommentere din oplevelse når dit besøg er forbi? Det tager kun et øjeblik.",
+	"b1" : "Ja",
+	"al3" : "Dette vil åbne i et nyt vindue",
+	"b2" : "Nej tak",
+	"al1" : "Feedback dialog",
+	"al2" : "Luk vinduet",
+	},
+	
+	"de" : {
+	"l1" : "Wir freuen uns über Ihre Meinung!",
+	"l2" : "Wären Sie bereit, uns nach Ihrem Besuch ein kurzes Feedback zu geben? Es dauert nur etwa eine Minute.",
+	"b1" : "Ja",
+	"al3" : "Ja, dies wird in einem neuen Fenster geöffnet",
+	"b2" : "Nein danke",
+	"al1" : "Dialogfeld Feedback",
+	"al2" : "Dialogfeld Feedback schließen",
+	},
+
+	"es" : {
+	"l1" : "¡Apreciamos su opinión!",
+	"l2" : "Tras su visita, ¿podría facilitarnos unos comentarios rápidos? Solo le llevará un minuto.",
+	"b1" : "Sí",
+	"al3" : "Sí, esto se abrirá en una ventana nueva",
+	"b2" : "No, gracias",
+	"al1" : "Cuadro de diálogo de comentarios",
+	"al2" : "Cerrar el cuadro de diálogo de comentarios",
+	},
+
+	"fi" : {
+	"l1" : "Palautteesi on meille tärkeä!",
+	"l2" : "Kiitos kun kävit sivuillamme! Voisitko kertoa lyhyesti mistä pidit tai mitä voisimme tehdä paremmin?",
+	"b1" : "Kyllä",
+	"al3" : "Kyllä, Tämä avaa uuden ikkunan.",
+	"b2" : "Ei kiitos",
+	"al1" : "Palaute-valintaikkuna",
+	"al2" : "Sulje palautevalintaikkuna",
+	},
+
+	"fr" : {
+	"l1" : "Nous apprécions votre opinion!",
+	"l2" : "Après votre visite, seriez-vous prêt à fournir des commentaires rapides? Cela ne prendra que quelques minutes.",
+	"b1" : "Oui",
+	"al3" : "Oui, une nouvelle fenêtre s'ouvrira",
+	"b2" : "Non merci",
+	"al1" : "Boîte de dialogue de commentaires",
+	"al2" : "Fermer boîte de dialogue de commentaires",
+	},
+
+	"it" : {
+	"l1" : "Ascoltiamo la tua opinione!",
+	"l2" : "Dopo la tua visita, vorresti rispondere aun breve questionario? Ti chiediamo solo pochi minuti.",
+	"b1" : "Sì",
+	"al3" : "Si aprirà una nuova finestra",
+	"b2" : "No, grazie",
+	"al1" : "Finestra di dialogo di feedback",
+	"al2" : "Chiudi la finestra di dialogo di feedback",
+	},
+
+
+	"ja" : {
+	//"l1" : "サービス",
+	"l1" : "お客様の貴重なご意見をお聞かせください",
+	"l2" : "当サポートサイト閲覧後、いくつかの短い質問にお答えいただけますか？",
+	"b1" : "はい",
+	"al3" : "はい、これは新しいウィンドウで開きます",
+	"b2" : "いいえ",
+	"al1" : "フィードバック・ダイアログ",
+	"al2" : "フィードバック・ダイアログを閉じる",
+	},
+
+	"ko" : {
+	"l1" : "고객님의 의견은 저희에게 소중합니다.",
+	"l2" : "홈페이지 방문을 마치시고 귀하의 경험에 대해 공유해 주시겠습니까? 이 설문은 매우 짧게 진행될 것 입니다.",
+	"b1" : "네",
+	"al3" : "예, 새 창에서 열립니다",
+	"b2" : "아니오",
+	"al1" : "피드백 대화 상자",
+	"al2" : "피드백 대화 상자 닫기",
+	},
+
+	"nl" : {
+	"l1" : "We value your opinion!",
+	"l2" : "After your visit would you be willing to provide some quick feedback? It will only take a minute.",
+	"b1" : "Yes!",
+	"al3" : "Yes, this will open a new window",
+	"b2" : "No thanks",
+	"al1" : "Feedback dialog",
+	"al2" : "Close feedback dialog",
+	},
+
+	"no" : {
+	"l1" : "Vi setter pris på dine meninger!",
+	"l2" : "Har du lyst til å komme med litt kjapp tilbakemelding når du er ferdig med besøket ditt? Det tar kun et minutt å svare.",
+	"b1" : "Ja",
+	"al3" : "Ja, Dette vil åpne et nytt vindu.",
+	"b2" : "Nei, takk",
+	"al1" : "Tilbakemeldingsdialog",
+	"al2" : "Lukk tilbakemeldingsdialogen",
+	},
+
+	"pt" : {
+	"l1" : "A sua opinião é importante para nós!",
+	"l2" : "Após a sua visita, estaria disposto a dar algum feedback rápido? Irá demorar apenas um minuto.",
+	"b1" : "Sim",
+	"al3" : "Será aberta uma nova janela",
+	"b2" : "Não, Obrigado",
+	"al1" : "Caixa de diálogo de feedback",
+	"al2" : "Fechar caixa de diálogo de feedback",
+	},
+
+	"ru" : {
+	"l1" : "Нам важно ваше мнение!",
+	"l2" : "Вы могли бы ответить на пару вопросов перед уходом? Это займет всего минуту.",
+	"b1" : "Да",
+	"al3" : "Да, откроется новое окно",
+	"b2" : "Нет, спасибо",
+	"al1" : "Диалоговое окно с формой обратной связи",
+	"al2" : "Закрыть диалоговое окно с формой обратной связи",
+	},
+
+	"sv" : {
+	"l1" : "Dina åsikter är viktiga för oss!",
+	"l2" : "Skulle du vara villig att lämna lite snabb feedback när du avslutar ditt besök? Det tar bara en minut.",
+	"b1" : "Ja",
+	"al3" : "Ja, Detta kommer att öppnas i ett nytt fönster.",
+	"b2" : "Nej tack",
+	"al1" : "Återkopplingsdialogruta",
+	"al2" : "Stäng dialogrutan",
+	},
+
+	"th" : {
+	"l1" : "We value your opinion!",
+	"l2" : "After your visit would you be willing to provide some quick feedback? It will only take a minute.",
+	"b1" : "Yes!",
+	"al3" : "ใช่ จะเปิดการดำเนินการนี้ในหน้าต่างใหม่",
+	"b2" : "No thanks",
+	"al1" : "กล่องโต้ตอบความคิดเห็น",
+	"al2" : "ปิดกล่องโต้ตอบความคิดเห็น",
+	},
+
+	"es_mx" : {
+	"l1" : "¡Valoramos tu opinión!",
+	"l2" : "Luego de tu visita, ¿estarías dispuesto a dejarnos tus comentarios? Sólo te llevará un minuto.",
+	"b1" : "Sí",
+	"al3" : "Sí, esto se abrirá en una nueva ventana",
+	"b2" : "No, gracias",
+	"al1" : "Diálogo de opiniones",
+	"al2" : "Cerrar diálogo de opiniones",
+	},
+
+	"pt_br" : {
+	"l1" : "Nós valorizamos a sua opinião!",
+	"l2" : "Após a sua visita, você poderia nos conceder um rápido feedback? Vai levar apenas um minuto.",
+	"b1" : "Sim",
+	"al3" : "Sim, ela será aberta em uma nova janela",
+	"b2" : "Não, obrigado.",
+	"al1" : "Caixa de diálogo Feedback",
+	"al2" : "Fechar a caixa de diálogo Feedback",
+	},
+   
+	"id" : {
+	"l1" : "Kami menghargai masukan Anda!",
+	"l2" : "Setelah kunjungan Anda, apakah Anda bersedia memberikan beberapa masukan? Hanya membutuhkan semenit saja.",
+	"b1" : "Ya",
+	"al3" : "Ya, ini akan membuka jendela baru",	
+	"b2" : "Tidak, terima kasih.",
+	"al1" : "Dialog umpan balik",
+	"al2" : "Tutup dialog umpan balik",
+	},
+   
+	"cs" : {
+	"l1" : "Vážíme si vašeho názoru!",
+	"l2" : "Mohl/a byste nám po návštěvě stránky poskytnout rychlou zpětnou vazbu? Bude to trvat jen minutu.",
+	"b1" : "Ano",
+	"al3" : "Ano, toto se otevře v novém okně",
+	"b2" : "Ne, děkuji",
+	"al1" : "Dialog odezvy",
+	"al2" : "Uzavřít dialog odezvy",
+	},
+	
+	"sk" : {
+	"l1" : "Vážíme si vašeho názoru!",
+	"l2" : "Mohl/a byste nám po návštěvě stránky poskytnout rychlou zpětnou vazbu? Bude to trvat jen minutu.",
+	"b1" : "Ano",
+	"al3" : "Ano, toto se otevře v novém okně",
+	"b2" : "Ne, děkuji",
+	"al1" : "Dialog odezvy",
+	"al2" : "Uzavřít dialog odezvy",
+	},
+
+	"tr" : {
+	"l1" : "Görüşleriniz bizim için değerlidir!",
+	"l2" : "Ziyaretinizden sonra görüşlerinizi hızlıca belirtmek ister misiniz? Bu işlem sadece birkaç dakikanızı alacak.",
+	"al3" : "Evet, bu yeni bir pencerede açılacak",
+	"b1" : "Evet",
+	"b2" : "Hayır teşekkürler",
+	"al1" : "Geri bildirim iletişim kutusu",
+	"al2" : "Geri bildirim iletişim kutusunu kapat",
+	},
+
+	"uk" : {
+	"l1" : "Ми цінуємо вашу думку!",
+	"l2" : "Після Вашого візиту, чи хотіли б Ви дати швидкий відгук? Це займе всього хвилину.",
+	"b1" : "Так",
+	"al3" : "Так, це відкриється в новому вікні",
+	"b2" : "Ні, дякую",
+	"al1" : "Діалогове вікно відгуку",
+	"al2" : "Закрити діалогове вікно відгуку",
+	},
+
+	"ua" : {
+	"l1" : "Ми цінуємо вашу думку!",
+	"l2" : "Після Вашого візиту, чи хотіли б Ви дати швидкий відгук? Це займе всього хвилину.",
+	"b1" : "Так",
+	"al3" : "Так, це відкриється в новому вікні",
+	"b2" : "Ні, дякую",
+	"al1" : "Діалогове вікно відгуку",
+	"al2" : "Закрити діалогове вікно відгуку",
+	},
+   
+	"pl" : {
+	"l1" : "Cenimy sobie opinie użytkowników!",
+	"l2" : "Czy po odwiedzeniu witryny możemy liczyć na wypełnienie krótkiej ankiety? Zajmie ona tylko minutę.",
+	"b1" : "Tak",
+	"al3" : "Tak, zostanie otwarte w nowym okienku",
+	"b2" : "Nie, dziękuje",
+	"al1" : "Okienko informacyjne informacji zwrotnych",
+	"al2" : "Zamknij okienko informacyjne informacji zwrotnych",
+},
+
+   
+}
+
+if(pnolc == "p689671841256")
+{
+  ConfirmitLog(showLog,'running exit text check for p689671841256' )
+		if( !(lstrlc == 'it' || lstrlc == 'en' || lstrlc == 'fr' || lstrlc == 'de' || lstrlc == 'id' || lstrlc == 'ja' || lstrlc == 'ko' || lstrlc == 'pt' || lstrlc == 'ru' || lstrlc == 'es') )
+		{
+		return txts['en'];
+		}
+}
+		
+	if(lstrlc == 'es' && lcclc == 'mx')
+	{
+		return txts['es_mx'];
+	}
+	else if (lstrlc == 'pt' && lcclc == 'br')
+	{
+		return txts['pt_br'];
+	}
+	else if(txts[lstrlc])
+	{
+		return txts[lstrlc];
+	}
+	else
+	{
+		return txts['en'];
+    }
+}
+
+ConfirmitLog(showLog,'getWaypointTexts v2.0');
+            
+getWaypointTexts = function(languagecode)
+{
+ var lstr = ""+languagecode;
+ var lstrlc = lstr.toLowerCase();
+  
+ var txts = {
+   
+      "en" : {
+      "l1" : "Help us serve you better.",
+      "l2" : "Select a category that closely fits the nature of your feedback.",
+	  "l3" : "Need technical support?",
+	  "l4" : "Contact Us",
+      "b1" : "Product",
+      "b2" : "Website",
+	  "b3" : "Service",
+	  "fb" : "Feedback",
+	  "ty" : "Thank you! Your feedback is appreciated.",
+      "al1" : "Feedback dialog",
+      "al2" : "Close feedback dialog",
+      },
+   
+      "pt" : {
+      "l1" : "Ajude a melhorar nosso serviço.",
+      "l2" : "Selecione a categoria que melhor representa o seu feedback.",
+	  "l3" : "Precisa de suporte ténico?",
+	  "l4" : "Fale Conosco.",
+      "b1" : "Produto",
+      "b2" : "Website",
+	  "b3" : "Serviço",
+	  "fb" : "Feedback",
+	  "ty" : "Obrigado! Agradecemos pelo feedback",
+      "al1" : "Feedback dialog",
+      "al2" : "Close feedback dialog",
+      },
+
+	  "es" : {
+      "l1" : "Ayúdenos a servirle mejor.",
+      "l2" : "Seleccione una categoría que se asemeje más a la naturaleza de sus comentarios.",
+	  "l3" : "Necesita asistencia técnica?",
+	  "l4" : "Por favor contáctenos.",
+      "b1" : "Producto",
+      "b2" : "Sitio Web",
+	  "b3" : "Servicio",
+	  "fb" : "Opiniones",
+	  "ty" : "¡Gracias! Apreciamos su opinión",
+      "al1" : "Feedback dialog",
+      "al2" : "Close feedback dialog",
+     },
+	 
+      "ja" : {
+      "l1" : "より良いサービス提供のため、ご意見をお聞かせください。",
+      "l2" : "ご意見の内容に一番近いものを 以下の項目からお選びください。",
+	  "l3" : "技術的なサポートをご希望ですか？",
+	  "l4" : " お問い合わせはこちら。",
+      "b1" : "製品",
+      "b2" : "Webサイト",
+	  "b3" : "サービス",
+	  "fb" : "フィードバック",
+	  "ty" : "ご意見ありがとうございます。",
+      "al1" : "Feedback dialog",
+      "al2" : "Close feedback dialog",
+      },
+	 
+      "ko" : {
+      "l1" : "귀하에게 보다 나은 서비스를 제공할 수 있도록 도와 주십시오.",
+      "l2" : "귀하의 피드백 성격과 밀접하게 관련된 범주를 선택하십시오.",
+	  "l3" : "기술 지원이 필요하십니까? ",
+	  "l4" : "저희에게 연락하십시오.",
+      "b1" : "제품",
+      "b2" : "웹사이트",
+	  "b3" : "서비스",
+	  "fb" : "고객의 소리",
+	  "ty" : "귀하의 피드백에 감사드립니다.",
+      "al1" : "Feedback dialog",
+      "al2" : "Close feedback dialog",
+      },
+	 
+      "fr" : {
+      "l1" : "Aidez-nous à mieux vous servir.",
+      "l2" : "Sélectionnez une catégorie qui correspond à vos commentaires.",
+	  "l3" : "Besoin d'un support technique?",
+	  "l4" : "Contactez nous.",
+      "b1" : "Produit",
+      "b2" : "Site Internet",
+	  "b3" : "Service",
+	  "fb" : "Avis",
+	  "ty" : "Nous vous remercions pour vos commentaires!",
+      "al1" : "Feedback dialog",
+      "al2" : "Close feedback dialog",
+      },
+	 
+      "ru" : {
+      "l1" : "Помочь нам улучшить сервис",
+      "l2" : "выберите категорию отзыва",
+	  "l3" : "Вам нужна техническая поддержка?",
+	  "l4" : "Свяжитесь с нами.",
+      "b1" : "Продукт",
+      "b2" : "Страница",
+	  "b3" : "Сервис",
+	  "fb" : "Отзыв",
+	  "ty" : "Спасибо!Ваш отзыв важен для нас.",
+      "al1" : "Feedback dialog",
+      "al2" : "Close feedback dialog",
+      },
+	 
+      "de" : {
+      "l1" : "Helfen Sie uns Sie besser zu betreuen.",
+      "l2" : "Wählen Sie eine Kategorie, die am nahesten dem Grund ihrer Rückmeldung entspricht.",
+	  "l3" : "Brauchen Sie technische Hilfe?",
+	  "l4" : "Kontaktieren Sie uns",
+      "b1" : "Produkt",
+      "b2" : "Internetseite",
+	  "b3" : "Service",
+	  "fb" : "Rückmeldung",
+	  "ty" : "Vielen Dank! Ihr Feedback ist sehr willkommen.",
+      "al1" : "Feedback dialog",
+      "al2" : "Close feedback dialog",
+      },
+	 
+      "it" : {
+      "l1" : "Aiutaci a servirti meglio.",
+      "l2" : "Selezionare una categoria che si adatta da vicino alla natura del tuo feedback.",
+	  "l3" : "Hai bisogno di assistenza tecnica? ",
+	  "l4" : "Contattaci.",
+      "b1" : "Prodotto",
+      "b2" : "Sito web",
+	  "b3" : "Servizio",
+	  "fb" : "Feedback",
+	  "ty" : "Grazie! Il tuo feedback è apprezzato. ",
+      "al1" : "Feedback dialog",
+      "al2" : "Close feedback dialog",
+      },
+
+
+   
+   
+}
+ 
+   return txts[lstrlc]
+}
+
+									   
+
+ConfirmitLog(showLog,"monitor window texts v2");
+
+getMonitiorWindowText = function(languagecode,moto,projectid)
+{
+ var lstr = ""+languagecode;
+ var lstrlc = lstr.toLowerCase();
+ var pno = ""+projectid;
+ var pnolc = pno.toLowerCase();
+ 
+ var txts = {
+	 
+"en" : {
+"t1" : "Thank you for helping us improve our website",
+"t2" : "If your visit to our website is complete, please click on Start Survey below.",
+"t3" : "Otherwise, please leave this window and return once you are done.",
+"t4" : "Start Survey",
+},
+	
+"pt" : {
+"t1" : "Obrigado por nos ajudar a melhorar o nosso site.",
+"t2" : "Se tiver terminado a sua visita ao nosso website, por favor clique abaixo em Iniciar Inquérito.",
+"t3" : "Caso contrário, por favor, saia desta janela e volte quando terminar.",
+"t4" : "Iniciar Inquérito",
+},
+
+"es" : {
+"t1" : "Gracias por ayudarnos a mejorar nuestro sitio web",
+"t2" : "Si ha terminado su visita a nuestro sitio web, haga clic en el botón Empezar encuesta que se encuentra a continuación.",
+"t3" : "De no ser así, salga de esta ventana y vuelva cuando haya terminado.",
+"t4" : "Empezar encuesta",
+},
+
+"ja" : {
+"t1" : "いただいたご意見は、弊社サイトの改善に反映させていただきます",
+"t2" : "弊社サイトの閲覧が終わった場合、下記のアンケートを開始 ボタンをクリックしてください",
+"t3" : "もしくは、こちらのウィンドウを残したままで、完了後にお戻りください",
+"t4" : "アンケートを開始",
+},
+
+"ko" : {
+"t1" : "저희 사이트 개선에 대한 의견을 주셔서 감사합니다.",
+"t2" : "방문을 마치셨을 경우, 설문 시작하기를 클릭해 주세요.",
+"t3" : "방문을 마치지 않으셨을 경우 나가기를 눌러주시고, 방문 전에 다시 참여해 주세요.",
+"t4" : "시작하기",
+},
+
+"fr" : {
+"t1" : "Nous vous remercions de nous aider à améliorer notre site Web.",
+"t2" : "Si votre visite sur notre site Web est terminée, cliquez sur Démarrer l'enquête ci-dessous.",
+"t3" : "Dans le cas contraire, quittez cette fenêtre et revenez-y une fois que vous avez terminé.",
+"t4" : "Démarrer l'enquête",
+},
+
+"ru" : {
+"t1" : "Спасибо, что помогаете улучшать веб-сайт",
+"t2" : "Если просматривать сайт больше не нужно, нажмите на кнопку «Начать опрос» ниже.",
+"t3" : "В противном случае, не закрывайте это окно. Вы сможете вернуться к нему, когда закончите.",
+"t4" : "Начать опрос",
+},
+
+"de" : {
+"t1" : "Vielen Dank, dass Sie uns bei der Optimierung unserer Website helfen.",
+"t2" : "Sobald Sie mit dem Besuch unserer Website fertig sind, klicken Sie bitte unten auf „Umfrage starten“.",
+"t3" : "Ansonsten schließen Sie bitte das Fenster und kehren dann zurück.",
+"t4" : "Umfrage starten",
+},
+
+"id" : {
+"t1" : "Terima kasih telah membantu memberikan masukan untuk website kami.",
+"t2" : "Jika kunjungan telah selesai, silakan klik Mulai Survey di bawah ini.",
+"t3" : "Atau, silakan tinggalkan window ini dan kembali setelah Anda selesai.",
+"t4" : "Mulai Survey",
+},
+
+"cs" : {
+"t1" : "Děkujeme vám, že nám pomáháte vylepšovat naše webové stránky",
+"t2" : "Jestliže už jste skončil/a návštěvu naší webové stránky, prosím klikněte dole na tlačítko Spustit průzkum.",
+"t3" : "Jestliže ne, prosím opusťte toto okno a vraťte se, až práci dokončíte.",
+"t4" : "Spustit průzkum",
+},
+
+"sk" : {
+"t1" : "Děkujeme vám, že nám pomáháte vylepšovat naše webové stránky",
+"t2" : "Jestliže už jste skončil/a návštěvu naší webové stránky, prosím klikněte dole na tlačítko Spustit průzkum.",
+"t3" : "Jestliže ne, prosím opusťte toto okno a vraťte se, až práci dokončíte.",
+"t4" : "Spustit průzkum",
+},
+   
+"tr" : {
+"t1" : "Web sitemizi iyileştirmemize yardımcı olduğunuz için teşekkürler",
+"t2" : "Web sitemizi ziyaretiniz tamamlandıysa lütfen aşağıdaki Anketi Başlat'a tıklayın.",
+"t3" : "Tamamlanmadıysa lütfen bu pencereden çıkın ve işiniz tamamlandığında geri dönün.",
+"t4" : "Anketi Başlat",
+},
+
+"uk" : {
+"t1" : "Дякуємо, що допомагаєте покращити наш веб-сайт",
+"t2" : "Якщо Ващ візит на наш веб-сайт завершено, будь ласка, натисніть кнопку Почати опитування нижче.",
+"t3" : "В іншому випадку, залиште це вікно і поверніться, як тільки ви закінчите.",
+"t4" : "Почати опитування",
+},
+
+"ua" : {
+"t1" : "Дякуємо, що допомагаєте покращити наш веб-сайт",
+"t2" : "Якщо Ващ візит на наш веб-сайт завершено, будь ласка, натисніть кнопку Почати опитування нижче.",
+"t3" : "В іншому випадку, залиште це вікно і поверніться, як тільки ви закінчите.",
+"t4" : "Почати опитування",
+},
+   
+"pl" : {
+"t1" : "Dziękujemy za pomoc w ulepszaniu witryny",
+"t2" : "Jeśli wizyta na naszej witrynie jest już zakończona, prosimy kliknąć przycisk Zacznij ankietę.",
+"t3" : "W przeciwnym razie można zostawić to okno otwarte i wrócić po zakończeniu wizyty.",
+"t4" : "Zacznij ankietę",
+},
+   
+}
+
+								
+  
+			
+  
+	
+	var mtxts = txts[lstrlc];
+	
+	if(!mtxts)
+	{
+	mtxts = txts["en"];
+	}
+
+	if(pnolc == "p689671841256")
+	{
+			if( !(lstrlc == 'it' || lstrlc == 'en' || lstrlc == 'fr' || lstrlc == 'de' || lstrlc == 'id' || lstrlc == 'ja' || lstrlc == 'ko' || lstrlc == 'pt' || lstrlc == 'ru' || lstrlc == 'es') )
+			{
+			mtxts = txts['en']; 
+			}
+	}
+	
+	//return '<img src="https://survey.us.confirmit.com/isa/CBAPBBDDFXGRHABAHMGDPBEPBRLTPOPR/DF/lenovo.png" id="mwl"><div id="mwh">Thank you for helping us improve our website</div> <div id="mwc">If your visit to our website is complete, please click on <strong>START SURVEY</strong> below.  Otherwise, please leave this window and return once your visit is complete.</div><div id="mws">START SURVEY</div>'
+if(moto)
+{
+  return '<img src="https://survey.us.confirmit.com/isa/CBAPBBDDFXGRHABAHMGDPBEPBRLTPOPR/Motorola/Motorola_Logo_Red.png"><div id="mwh">' + mtxts['t1'] + '</div> <div id="mwc">' + mtxts['t2'] + ' ' + mtxts['t3'] + '</div><div id="mws">' + mtxts['t4'] + '</div>'
+}
+  else
+{
+  return '<img src="https://survey.us.confirmit.com/isa/CBAPBBDDFXGRHABAHMGDPBEPBRLTPOPR/DF/lenovo.png" id="mwl"><div id="mwh">' + mtxts['t1'] + '</div> <div id="mwc">' + mtxts['t2'] + ' ' + mtxts['t3'] + '</div><div id="mws">' + mtxts['t4'] + '</div>'
+}
+  
+}
+
+
+
+
+
+
+
+getMWCSS = function()
+{
+  return '<style>body{font-family:"Lato Regular", Arial;}\n.tb{  max-width:590px;  //height:310px;  border:#ff0000 1px solid;  padding-top:43px;  padding-left:34px;  padding-right:34px;  padding-bottom:40px;}\n#mwl{  width:75px;  height:25px;}\n#mwh{  margin-top:24px;  font-size: 24px;  font-family:"Lato Regular", Arial;}\n#mwc{  margin-top:24px;  font-size: 16px;  font-family:"Lato Regular", Arial;}\n#mws{max-width:212px;  padding-top:11px;  padding-bottom:11px;  background-color:#1976A1;  font-size:16px;  color:#ffffff;  text-align:center;  margin-top:24px;  margin-left:auto;  margin-right:auto; cursor:pointer;}</style>'
+}
+
+
+								  
+
+
+getSiteData = function(pid)
+{
+	var dObj = {};
+
+	dObj.csr = screen.width + "x" + screen.height;
+	dObj.wiw = window.innerWidth;
+
+    dObj.bt = escape(lmd.bu);
+
+    switch(""+pid)
+	{
+		case "p689671841256":
+		// support exit survey
+		if(typeof s != "undefined")
+		{
+		dObj.sv = escape(s.server);
+		dObj.ad = escape(s.prop22);
+        }
+        dObj.source = escape(lmd.source);
+		dObj.subsource = escape(lmd.subsource);
+		dObj.sn = escape(lmd.serialnumber);
+		dObj.mt = escape(lmd.machinetype);
+		dObj.ps = escape(lmd.productselected);
+		dObj.ss = escape(lmd.subsection);
+		dObj.cc = escape(lmd.cc);
+		dObj.dt = escape(lmd.docType);
+		dObj.dc = escape(lmd.docID);
+		dObj.cs = escape(lmd.countrysource);
+		dObj.ls = escape(lmd.loginInfo.loginStatus);
+		dObj.ld = escape(lmd.loginInfo.lenovoID);
+		dObj.bt = escape(lmd.bu);
+		dObj.lc = escape(lmd.language);     
+		dObj.wi = escape(lmd.warrantyInsights);
+		dObj.ws = escape(lmd.warrantystatus);
+		dObj.supuser = escape(lmd.supportUserType);
+        dObj.env = "L";
+
+		// new addition of QM session id and userid values.
+        var qmgs = "" + QuantumMetricAPI.getSession();
+		if(ConfirmitCookies.get("QuantumMetricSessionID") || qmgs )
+		{
+		  var qmsidv = ConfirmitCookies.get("QuantumMetricSessionID");
+          if( !qmsidv )
+          {
+            qmsidv = qmgs;
+          }
+        console.log('*** qm sid cookie: ' + qmsidv + '***');
+		  dObj.qmsid = qmsidv;
+		}
+        else
+        {
+        console.log('*** no qm sid cookie ***');
+        }
+
+        var qmgu = QuantumMetricAPI.getUserID();
+        
+		if(ConfirmitCookies.get("QuantumMetricUserID") || qmgu)
+		{
+		  var qmuidv = ConfirmitCookies.get("QuantumMetricUserID");
+          if(!qmuidv)
+          {
+            qmuidv = qmgu;
+          }
+        console.log('*** qm uid cookie: ' + qmuidv + '***');
+		  dObj.qmuid = qmuidv;
+		}
+        else
+        {
+        console.log('*** no qm uid cookie ***');
+        }
+
+			  
+
+					   
+						
+							 
+   
+							 
+							 
+		 
+									 
+									
+										
+								   
+						   
+								
+							  
+									  
+											  
+										   
+								 
+		
+													
+   
+																
+						
+   
+
+												 
+   
+															 
+						
+		   
+
+        break;
+        
+		case "p381748262651":
+        // community exit survey
+        //dObj.source = escape(lmd.source);
+		//dObj.subsource = escape(lmd.subsource);
+		dObj.lc = escape(lmd.language);
+		dObj.bd = escape(lmd.brand);
+		dObj.cc = escape(lmd.cc);
+		dObj.ss = escape(lmd.subsection);
+		dObj.ld = escape(lmd.loginInfo.lenovoID);
+		dObj.ls = escape(lmd.loginInfo.loginStatus);
+		dObj.bt = escape(lmd.bu);
+		dObj.tid = escape(lmd.topicID);
+		dObj.catid = escape(lmd.categoryid);
+		dObj.bid = escape(lmd.boardid);
+		dObj.tpcrdt = escape(lmd.topicCreateDate);
+		dObj.tpagdy = escape(lmd.topicAgeDays);
+		dObj.solmarked = escape(lmd.solutionmarked);
+        dObj.env = "L";
+        
+		// new addition of QM session id and userid values.
+        var qmgs = "" + QuantumMetricAPI.getSession();
+		if(ConfirmitCookies.get("QuantumMetricSessionID") || qmgs )
+		{
+		  var qmsidv = ConfirmitCookies.get("QuantumMetricSessionID");
+          if( !qmsidv )
+          {
+            qmsidv = qmgs;
+          }
+        console.log('*** qm sid cookie: ' + qmsidv + '***');
+		  dObj.qmsid = qmsidv;
+		}
+        else
+        {
+        console.log('*** no qm sid cookie ***');
+        }
+
+        var qmgu = QuantumMetricAPI.getUserID();
+        
+		if(ConfirmitCookies.get("QuantumMetricUserID") || qmgu)
+		{
+		  var qmuidv = ConfirmitCookies.get("QuantumMetricUserID");
+          if(!qmuidv)
+          {
+            qmuidv = qmgu;
+          }
+        console.log('*** qm uid cookie: ' + qmuidv + '***');
+		  dObj.qmuid = qmuidv;
+		}
+        else
+        {
+        console.log('*** no qm uid cookie ***');
+        }
+		
+		
+  
+					   
+						  
+								 
+							  
+						   
+								   
+										   
+											  
+						   
+								 
+									
+								 
+
+		break;
+				
+		case "p3094258117":
+		// support comment card
+		dObj.cc = escape(lmd.cc);
+        dObj.sn = escape(lmd.serialnumber);
+		dObj.mt = escape(lmd.machinetype);
+		dObj.sn = escape(lmd.serialnumber);
+		dObj.ls = escape(lmd.loginInfo.loginStatus);
+        dObj.ps = escape(lmd.productselected);
+		dObj.lc = escape(lmd.language);
+        dObj.env = "L";
+        break;
+
+				
+		case "p3094891388":
+		// motorola exit survey
+		dObj.cc = escape(lmd.cc);
+        dObj.lc = escape(lmd.language);
+		dObj.ls = escape(lmd.loginInfo.loginStatus);
+		dObj.ld = escape(lmd.loginInfo.lenovoID);
+        dObj.ps = escape(lmd.productselected);
+		dObj.ss = escape(lmd.subsection);
+        dObj.bt = escape(lmd.bu);
+        dObj.env = "L";
+		//dObj.sd = escape(lmd.storeID);
+		//dObj.bpid = escape(lmd.bpid);
+		break;
+
+		case "p3094889898":
+		// motorola comment card
+		dObj.cc = escape(lmd.cc);
+		dObj.lc = escape(lmd.language);
+		dObj.sn = escape(lmd.serialnumber);
+		dObj.ls = escape(lmd.loginInfo.loginStatus);
+		dObj.ps = escape(lmd.productselected);
+        dObj.env = "L";
+		break;
+	}
+
+    if(typeof s != "undefined")
+    {
+            dObj.amc = escape(s.marketingCloudVisitorID);
+    }
+	dObj.curl = document.location.href;
+	dObj.chn = document.location.hostname;
+				   
+
+
+  return dObj;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+getSurveyType = function(pid)
+{
+  var pno = ""+pid;
+  var pnolc = pno.toLowerCase();
+  var stype = "";
+  switch(""+pnolc)
+  {   
+    case "p689671841256": stype = "Support|Exit Survey|p689671841256"; break; 
+																			  
+    case "p3094891388": stype = "Motorola Support|Exit Survey|p3094891388"; break; 
+  }
+  return stype;
+}
+
+
+getWaypointSurveyType = function(pid,fbt)
+{
+  var fb = ""+fbt;
+  var fbtlc = fb.toLowerCase();
+  var stype = "";
+  
+  switch(fbtlc)
+  {
+  case "website": stype = "Support|Website Comment Card|" + pid; break;
+  case "product": stype = "Support|Product Comment Card|" + pid; break;
+  case "service": stype = "Support|Service Comment Card|" + pid; break;  
+  }
+  
+  return stype;
+}
+
+ConfirmitLog(showLog,"ConfirmitStaticLink v4.6");
+
+window.ConfirmitStaticLink = function (pid,newWindow,showcLog,test) {
+  
+  var logString = "ConfirmitStaticLink "
+  
+  var oneDayCookieName = "LOSAD";
+  var container = "default";
+  
+  var show = showcLog ? true : false;
+  
+  var doNewWindow = true // newWindow ? true : false;
+  
+  if(pid)
+  {
+	  ConfirmitLog(show,logString + "link clicked.  pid: "+pid);
+  }
+  else
+  {
+	  ConfirmitLog(show,logString + "pid not specified.  exiting.");
+      return;
+  }
+
+var lccc = getLCCCURL();
+console.log(JSON.stringify(lccc));
+  
+var plang = lccc.lc ? lccc.lc : "en";
+var cntry = lccc.cc ? lccc.cc : "us";
+  
+var slang = getLang( plang , cntry, pid);
+
+
+//var plang = lmd.language ? lmd.language : "en";
+//var slang = getLang( plang );
+
+var dObj = getSiteData(pid);
+dObj.l = slang;
+  
+_satellite.track("survey_start");
+
+if(doNewWindow)
+{
+  	var popWindow = window.open("","survey","height=675,width=640");
+    var head = popWindow.document.head;
+    var body = popWindow.document.body;
+    
+	var newScript = popWindow.document.createElement('script');
+  	newScript.type = "text/javascript";
+    newScript.text = "(function(w,d,s,i){o=d.createElement('script'), m=d.getElementsByTagName('script')[0]; o.async=1; o.src=s; o.id=i; m.parentNode.insertBefore(o,m)})(window, document, 'https://digitalfeedback.us.confirmit.com/api/digitalfeedback/loader?programKey=uW5H5a', 'cf-program-uW5H5a')";
+									
+						   
+	head.appendChild(newScript);
+
+					var newScript2 = popWindow.document.createElement('title');
+					newScript2.text = "Lenovo";
+					head.appendChild(newScript2);
+  
+    var mwmeta = popWindow.document.createElement("meta");
+    mwmeta.setAttribute("name", "viewport");
+    mwmeta.setAttribute("content", "width=device-width, initial-scale=1.0");
+    head.appendChild(mwmeta);
+
+    var mwmeta2 = popWindow.document.createElement("meta");
+    mwmeta2.setAttribute("name", "charset");
+    mwmeta2.setAttribute("content", "UTF-8");
+    head.appendChild(mwmeta2);
+	
+	body.innerHTML = "" + "<input name='tab' id='tab' type=hidden value='0'><input type=hidden id='pid' value=" + pid + "><input id='cdat' type=hidden value=" + JSON.stringify(dObj) + ">";
+}
+else
+{
+  var ctx = api()
+  ctx.container(container)
+  ctx.survey(pid)
+  ctx.data(dObj)
+  ctx.show();
+}
+  ConfirmitCookies.set(oneDayCookieName, '1', {path : '/', expiry : 86400, secure:true, samesite: 'None'});
+  sessionStorage.setItem(oneDayCookieName, "1");
+};
+
+													  
+
+ConfirmitLog(true,"ConfirmitWaypointStaticLink v4.6");
+
+
+
+window.ConfirmitWaypointStaticLink = function (pid,feedbackType,newWindow,showcLog,test) {
+  
+  var logString = "ConfirmitStaticLink "
+  
+  var oneDayCookieName = "LOSAD";
+  var container = "default";
+  
+  var show = showcLog ? true : false;
+  
+  var doNewWindow = true // newWindow ? true : false;
+  
+  if(pid)
+  {
+	  ConfirmitLog(show,logString + "link clicked.  pid: "+pid);
+  }
+  else
+  {
+	  ConfirmitLog(show,logString + "pid not specified.  exiting.");
+      return;
+  }
+
+var lccc = getLCCCURL();
+console.log(JSON.stringify(lccc));
+  
+var plang = lccc.lc ? lccc.lc : "en";
+var cntry = lccc.cc ? lccc.cc : "us";
+var slang = getLang( plang, cntry, pid );
+  
+//var plang = lmd.language ? lmd.language : "en";
+//var slang = getLang( plang );
+
+var dObj = getSiteData(pid);
+dObj.l = slang;
+if(feedbackType)
+{
+  dObj.purpose = feedbackType;
+}
+
+lmd.survey = {};
+lmd.survey.step = "start";
+lmd.survey.surveytype = getWaypointSurveyType(pid,feedbackType);
+  
+_satellite.track("survey_start"); 
+  
+if(doNewWindow)
+{
+											 
+														 
+												   
+  	var popWindow = window.open("","survey","height=675,width=640");
+    var head = popWindow.document.head;
+    var body = popWindow.document.body;
+										   
+    
+	var newScript = popWindow.document.createElement('script');
+  	newScript.type = "text/javascript";
+																										 
+									
+						   
+							 
+    newScript.text = "(function(w,d,s,i){o=d.createElement('script'), m=d.getElementsByTagName('script')[0]; o.async=1; o.src=s; o.id=i; m.parentNode.insertBefore(o,m)})(window, document, 'https://digitalfeedback.us.confirmit.com/api/digitalfeedback/loader?programKey=uW5H5a', 'cf-program-uW5H5a')";
+	head.appendChild(newScript);
+
+					var newScript2 = popWindow.document.createElement('title');
+					newScript2.text = "Lenovo";
+					head.appendChild(newScript2);
+  
+    var mwmeta = popWindow.document.createElement("meta");
+    mwmeta.setAttribute("name", "viewport");
+    mwmeta.setAttribute("content", "width=device-width, initial-scale=1.0");
+    head.appendChild(mwmeta);
+
+    var mwmeta2 = popWindow.document.createElement("meta");
+    mwmeta2.setAttribute("name", "charset");
+    mwmeta2.setAttribute("content", "UTF-8");
+    head.appendChild(mwmeta2);
+	
+	body.innerHTML = "" + "<input name='tab' id='tab' type=hidden value='0'><input type=hidden id='pid' value=" + pid + "><input id='cdat' type=hidden value=" + JSON.stringify(dObj) + ">";
+}
+else
+{
+  var ctx = api()
+  ctx.container(container)
+  ctx.survey(pid)
+  ctx.data(dObj)
+  ctx.show();
+}
+  ConfirmitCookies.set(oneDayCookieName, '1', {path : '/', expiry : 86400, secure:true, samesite: 'None'});
+  sessionStorage.setItem(oneDayCookieName, "1");
+};
+
+
+																		  
+
+																	   
+
+								  
+
+ConfirmitLog(showLog,"ConfirmitExitSurvey - Services - Multilingual v1.1.8");
+
+window.ConfirmitExitSurvey = function (pid,configObject,showcLog,test) {
+
+var show = showcLog ? true : false;
+
+var logString = "Support Exit - ";
+
+	if(!pid)
+	{
+		ConfirmitLog(show,logString + "pid not specified.  exiting.");
+		return;
+	}
+
+var lccc = getLCCCURL();
+console.log("url.lc.cc" + JSON.stringify(lccc));
+  
+if(pid == 'p381748262651')
+{
+  console.log('! p381748262651 exit survey version !');
+  var plang = lmd.language ? lmd.language : "en";
+  console.log( plang );
+}
+else
+{
+  var plang = lccc.lc ? lccc.lc : "en";
+}
+ 
+var cntry = lccc.cc ? lccc.cc : "us";
+var slang = getLang( plang, cntry, pid );
+  
+var delay = configObject.delay ? configObject.delay : 0;
+var cookieExpireDays = configObject.expire ? configObject.expire : 30; 
+var container = "Empty";
+var pct = configObject.incidence ? parseInt(configObject.incidence) : 30;
+var pageCount = configObject.pagecount;
+  
+if(pageCount)
+{
+ ConfirmitLog(show,logString + " Checking page count.");
+ var pageViews = sessionStorage.getItem('conflespc');
+ if(pageViews < pageCount)
+ {
+   ConfirmitLog(show,logString + " pages viewed: " + pageViews + " < pages required: " + pageCount + ". exiting.");
+   return;
+ }
+}
+	
+var oneDayCookieName = "LOSAD";
+var surveyCookieName = pid + "_done";
+
+var ostt = sessionStorage.getItem(oneDayCookieName);
+if(ostt)
+{
+	console.log("CONF - " + pid + " - one survey a day session variable present.  Exiting.");
+   return;
+}
+  
+if(ConfirmitCookies.get(surveyCookieName))
+{
+  console.log("CONF - " + pid + " - survey cookie present.  Exiting.");
+ return;
+}
+  
+if(ConfirmitCookies.get(oneDayCookieName))
+{
+  console.log("CONF - " + pid + " - one survey a day cookie present.  Exiting.");
+ return;
+}
+
+if( pct < 100 )
+{
+	// check nth visitor session variable on each page.  if not present, set nth visitor.
+	if (sessionStorage.getItem(pid + "_nth"))
+	{
+	  var nthvisitor  = sessionStorage.getItem(pid + "_nth") == "1" ? true : false;
+	  ConfirmitLog(show,logString + "session nth visitor: " + nthvisitor);
+	}
+	else
+	{
+	  var nthvisitor  = Math.random() < pct/100;
+	  ConfirmitLog(show,logString + "nth visitor check: " + nthvisitor);
+	  sessionStorage.setItem(pid + "_nth",nthvisitor ? "1" : "0");   // 1 to show, 0 to not show
+	}
+	
+	if(!nthvisitor)
+	{
+		ConfirmitLog(show,logString + "not nth visitor.  exiting.");
+		return;
+	}
+		ConfirmitLog(show,logString + "nth visitor check passed.  running.");	
+}
+else
+{
+	ConfirmitLog(show,logString + "defaulting to 100% incidence.");
+}
+	
+	
+var invite = "DomainExitML2";
+  
+var loc = document.location.href;
+var loclc = loc.toLowerCase();
+var doNewInvite = false;
+var re = /https:\/\/(testforums|newforums|forums).lenovo.com/i
+var isForums = false;
+var testforums = re.test(loclc);
+if(testforums)
+{
+  isForums = true;
+}
+
+var re2 = /https:\/\/(survey|author).confirmit.com/i
+var testConfirmit = re2.test(loclc);
+if( testConfirmit )
+{
+  isForums = true;
+  ConfirmitLog(show,logString + "showing new invite on confirmit.com");
+}
+
+													  
+ 
+				  
+																					  
+ 
+  
+if( isForums )
+{
+	invite = "DomainExitML5";
+	doNewInvite = true;
+}
+
+var dObj = getSiteData(pid);
+dObj.l = slang;
+
+if(test)
+{
+dObj.test = 1;
+}
+  
+ConfirmitLog(show,logString+"data Object: " + JSON.stringify(dObj));
+
+var fn = function () {
+  
+  
+  	if( pid == 'p689671841256' )
+	{
+		ConfirmitLog(showLog, logString + 'p689671841256/p199578668179 : testing for solutions/troubleshoot/repair ');
+		var loc = document.location.href;
+		var testurl = document.getElementById("ConfiritTestUrl");
+		if(testurl)
+		{
+		  ConfirmitLog(showLog, ' USING TEST URL FIELD VALUE ');
+		  var loc = testurl.value;
+		}
+		var loclc = loc.toLowerCase();
+		var re2 = /(http|https):\/\/(support|pcsupport|datacentersupport|lenovomobilesupport|smartsupport)/i
+		var test2 = re2.test(loclc)
+		if( test2 )
+		{
+			ConfirmitLog(showLog, 'on pcsupport/datacentersupport/lenovomobilesupport/smartsupport/support page... ');
+			var reb2 = /(\/solutions\/|\/parts|\/accessories|\/videos|\/repair)/i
+			var testb2 = reb2.test( loclc );
+			if( testb2 )
+			{
+				ConfirmitLog(showLog, 'on solutions/parts/accessories/videos/repairs page.  Not running.');
+				return;
+			  
+			}
+          
+			var reb6 = /(\/documents\/|\/product_security|\/playlist|\/nvideo|\/ytvideo)/i
+			var testb6 = reb6.test( loclc );
+			 if( testb6 )
+			 {
+				 onPage = false;
+				 ConfirmitLog(showLog, 'on documents/product_security/playlist/nvideo/ytvideo page.  Not running.');
+				 return;
+			 }
+		  
+		}
+		
+		var re3 = /(http|https):\/\/pcsupport/i
+		var test3 = re3.test(loclc)
+		if( test3 )
+		{
+			ConfirmitLog(showLog, 'on pcsupport page... ');
+			var reb3 = /(\/troubleshoot|\/diagnostics\/hw|\/threesteps|\/diagnostics-troubleshooting|\/lite-diagnostics)/i
+			var testb3 = reb3.test( loclc );
+			if( testb3 )
+			{
+				 ConfirmitLog(showLog, 'on troubleshoot/diagnostics/hw / threesteps/diagnostics-troubleshooting/lite-diagnostics page.  Not running.');
+				 return;
+			}
+          
+			var reb5 = /(\/automatic-driver-update|\/downloads\/ds|\/lenovorecovery)/i
+			var testb5 = reb5.test( loclc );
+			 if( testb5 )
+			 {
+				 onPage = false;
+				 ConfirmitLog(showLog, 'on /automatic-driver-update - /downloads/ds - /lenovorecovery.  Not running.');
+				 return;
+			 }
+		  
+		}
+      
+		 var re4 = /(http|https):\/\/(pcsupport|lenovomobilesupport)/i
+		 var test4 = re4.test(loclc)
+		  if( test4 )
+		 {
+			ConfirmitLog(showLog, 'on pcsupport / mobilesupport page ... ');
+			var reb4 = /\/warranty/i
+			var testb4 = reb4.test( loclc );
+			 if( testb4 )
+			 {
+				 onPage = false;
+				 ConfirmitLog(showLog, 'on /warranty page.  Not running.');
+				 return;
+			 }
+		 }
+      
+      if( lmd.series )
+      {
+       var lmds = "" + lmd.series;
+       var lmdslc = lmds.toLowerCase();
+       if( lmdslc == "fccl" )
+       {
+				 onPage = false;
+				 ConfirmitLog(showLog, 'lmd.series: fccl.  Not running.');
+				 return;
+       }
+      }
+        	     ConfirmitLog(showLog, 'lmd.series: ' + lmd.series );    
+    			 ConfirmitLog(showLog, 'lmd.series: ' + lmdslc ); 
+  
+  
+
+
+										
+  
+														   
+		 
+	}
+									   
+										
+  
+var ostt = sessionStorage.getItem(oneDayCookieName);
+if(ostt)
+{
+	console.log("CONF - " + pid + " - survey function fn called.  one survey a day session variable present.  Exiting.");
+   return;
+}
+  
+    ConfirmitLog(show,"showing invite");
+	var ctx = api();
+  	ctx.invite(invite);
+	ctx.container(container);
+    ctx.survey(pid);
+	ctx.data(dObj);
+	ctx.show();
+	ConfirmitCookies.set(oneDayCookieName, '1', {path : '/', expiry : 86400, secure:true, samesite: 'None'});
+	ConfirmitCookies.set(surveyCookieName, '1', {path : '/', expiry : parseInt(cookieExpireDays)*86400, secure:true, samesite: 'None'});
+	sessionStorage.setItem(oneDayCookieName, "1");
+
+  
+lmd.survey = {};
+lmd.survey.surveytype = getSurveyType(pid); 
+  
+_satellite.track("survey-invite-prompt");
+  
+ctx.events.showInvite.on(
+  function() { 
+  if( doNewInvite )
+  {
+    var itxts = getNewTxts(plang,cntry,pid);
+     //console.log("**** PID: " + pid + " ***"); console.log("set line1")
+    document.getElementsByClassName('cf-invite__title')[0].innerHTML = itxts.l1;
+     //console.log("set line2");
+    document.getElementsByClassName('cf-invite__content')[0].innerHTML = itxts.l2;
+     //console.log("set line3");
+    document.getElementsByClassName('cf-invite__content2')[0].innerHTML = itxts.l3;
+     //console.log("set line4");
+    document.getElementsByClassName('cf-invite__content3')[0].innerHTML = itxts.l4;
+	//console.log("set line5");
+    document.getElementsByClassName('cf-invite__content0')[0].innerHTML = itxts.l6;
+	//console.log("set line6");
+    document.getElementsByClassName('cf-invite__content5')[0].innerHTML = itxts.l0;
+     //console.log("set b2");
+    document.getElementsByClassName('cf-invite__button--accept')[0].innerHTML = itxts.b2;
+     //console.log("set b1");
+    document.getElementsByClassName('cf-invite__button--decline')[0].innerHTML = itxts.b1;
+     //console.log("set b3");
+    document.getElementsByClassName('cf-invite__button2')[0].innerHTML = itxts.b3;
+     //console.log("set a1");
+    document.getElementsByClassName('cf-invite__button--misc1')[0].innerHTML = itxts.b4;
+     //console.log("set b5");
+    document.getElementsByClassName('cf-invite__button--misc2')[0].innerHTML = itxts.b5;
+     //console.log("set b6");
+    document.getElementsByClassName('cf-invite__button--misc3')[0].innerHTML = itxts.b6;
+     //console.log("set al1");
+    document.getElementsByClassName('cf-invite-wrapper')[0].setAttribute('aria-label', itxts.al1);
+     //console.log("set al2");
+    document.getElementsByClassName('cf-invite__close')[0].setAttribute('aria-label', itxts.al2);
+     //console.log("set al3");
+    document.getElementsByClassName('cf-invite__button--accept')[0].setAttribute('aria-label', itxts.al3);
+	
+   console.log( 'store data for verbatim survey');
+
+    	ConfirmitHelper.CESData = dObj;
+ 
+  }
+    else
+    {
+    var itxts = getTxts(plang,cntry,pid);
+     //console.log("set line1")
+    document.getElementsByClassName('cf-invite__title')[0].innerHTML = itxts.l1;
+     //console.log("set line2")
+    document.getElementsByClassName('cf-invite__content')[0].innerHTML = itxts.l2;
+     //console.log("set b1")
+    document.getElementsByClassName('cf-invite__button--accept')[0].innerHTML = itxts.b1;
+     //console.log("set b2")
+    document.getElementsByClassName('cf-invite__button--decline')[0].innerHTML = itxts.b2;
+     //console.log("set a1")
+    document.getElementsByClassName('cf-invite-wrapper')[0].setAttribute('aria-label', itxts.al1);
+     //console.log("set a2")
+    document.getElementsByClassName('cf-invite__close')[0].setAttribute('aria-label', itxts.al2);
+     //console.log("set a3")
+    document.getElementsByClassName('cf-invite__button--accept')[0].setAttribute('aria-label', itxts.al3);
+    }
+	
+										  
+							  
+
+  });
+  
+	ctx.events.showContainer.on(
+  function() {
+    console.log('survey shown');
+    var cfsw = screen.width;
+    var cfww = 590;
+    var cfwh = 325;
+    var cfsl = (cfsw-cfww)/2;
+    var cfwparams = "width=" + cfww + ",height=" + cfwh + ",top=125,left=" + cfsl;
+	var popWindow = window.open("","survey",cfwparams);
+    var head = popWindow.document.head;
+    var body = popWindow.document.body;
+    
+	var newScript = popWindow.document.createElement('script');
+  	newScript.type = "text/javascript";
+																										 
+									
+						   
+							 
+    newScript.text = "(function(w,d,s,i){o=d.createElement('script'), m=d.getElementsByTagName('script')[0]; o.async=1; o.src=s; o.id=i; m.parentNode.insertBefore(o,m)})(window, document, 'https://digitalfeedback.us.confirmit.com/api/digitalfeedback/loader?programKey=qpJrUO', 'cf-program-qpJrUO')";
+	head.appendChild(newScript);
+
+					var newScript2 = popWindow.document.createElement('title');
+					newScript2.text = "Lenovo";
+					head.appendChild(newScript2);
+    
+    var mwmeta = popWindow.document.createElement("meta");
+    mwmeta.setAttribute("name", "viewport");
+    mwmeta.setAttribute("content", "width=device-width, initial-scale=1.0");
+    head.appendChild(mwmeta);
+	
+    var mwmeta2 = popWindow.document.createElement("meta");
+    mwmeta2.setAttribute("name", "charset");
+    mwmeta2.setAttribute("content", "UTF-8");
+    head.appendChild(mwmeta2);
+	
+    var doMoto = pid == "p3094891388" ? true : false;
+	body.innerHTML = "<input name='tab' id='tab' type=hidden value='0'>" + getMWCSS() + getMonitiorWindowText(plang,doMoto,pid) + "<input type=hidden id='pid' value=" + pid + "><input id='cdat' type=hidden value=" + JSON.stringify(dObj) + ">";
+  });
+  
+};
+
+setTimeout(fn, delay*1000);
+}
+
+ConfirmitLog(showLog,"CONF - Waypoint Feedback Tab v1.2");
+
+openSurvey = function(str) { 
+  console.log(str)
+}
+
+window.ConfirmitWaypointFeedbackTab = function (projectid,donewWindow,showcLog,showtest) {
+var invite = 'Feedback1';
+var show = showcLog ? true : false;
+var lng = lmd.language;
+ConfirmitLog(show,lng);
+var itxts = getWaypointTexts(lmd.language);
+function doInvite()
+{
+  var loc = ""+document.location.href;
+  var feedbackInvite = api()
+  .invite(invite)
+  .show();
+
+    _satellite.track("survey-invite-prompt");
+
+  feedbackInvite.events.showInvite.on(function()
+    {
+	document.getElementById('cf_fbt_ivt').innerHTML = itxts.fb;
+	});
+  
+  feedbackInvite.events.acceptInvite.on( function()
+  {
+    var wpInvite = api()
+    .invite('WayPointML2')
+    .show();
+    wpInvite.events.showInvite.on(function()
+    {
+      document.getElementById("cf_website").addEventListener("click", function(){
+												 
+							   
+       ConfirmitStaticLink(projectid,'website',false,true,true);
+    });
+
+      
+    document.getElementById("cf_product").addEventListener("click", function(){
+												 
+							   
+       ConfirmitStaticLink(projectid,'product',false,true,true);
+    });
+
+      
+    document.getElementById("cf_service").addEventListener("click", function(){
+
+  
+    ConfirmitStaticLink(projectid,'service',false,true,true);
+    });
+    var itxts = getWaypointTexts(lmd.language);
+     ConfirmitLog(show,"set line1")
+    document.getElementById('cf_wp_l1').innerHTML = itxts.l1;
+     ConfirmitLog(show,"set line2")
+    document.getElementById('cf_wp_l2').innerHTML = itxts.l2;
+     ConfirmitLog(show,"set line3")
+    document.getElementById('cf_wp_l3').innerHTML = itxts.l3;
+     ConfirmitLog(show,"set line4")
+    document.getElementById('cf_wp_l4').innerHTML = itxts.l4;
+     ConfirmitLog(show,"set b1")
+    document.getElementById('cf_productt').innerHTML = itxts.b1;
+     ConfirmitLog(show,"set b2")
+    document.getElementById('cf_websitet').innerHTML = itxts.b2;
+     ConfirmitLog(show,"set b3")
+    document.getElementById('cf_servicet').innerHTML = itxts.b3;
+     ConfirmitLog(show,"set a1")
+    document.getElementsByClassName('cf-invite-wrapper')[0].setAttribute('aria-label', itxts.al1);
+     ConfirmitLog(show,"set a2")
+    document.getElementsByClassName('cf-invite__close')[0].setAttribute('aria-label', itxts.al2);
+																							  
+																							  
+																																																								
+    });
+																		
+  });
+}
+
+  
+  
+  
+  
+doInvite();
+  
+}
+
+ConfirmitLog(showLog,"CONF - Lenovo Waypoint v1");
+
+window.ConfirmitLenovoWaypoint = function (projectid,donewWindow,showcLog,showtest) 
+{
+  var elos = document.getElementById("cf_website");
+  
+  if(elos)
+  {
+    return;
+  }
+  
+var invite = 'WayPointML2';
+var show = showcLog ? true : false;
+var lccc = getLCCCURL();
+ConfirmitLog(show,lccc);
+var lng = lccc.lc ? lccc.lc : "en";
+//var lng = lmd.language;
+ConfirmitLog(show,lng);
+var itxts = getWaypointTexts(lng);
+
+//var loc = ""+document.location.href;
+  
+    var wpInvite = api()
+    .invite('WayPointML2')
+    .show();
+
+lmd.survey = {};
+lmd.survey.step = "NA";
+lmd.survey.surveytype = "NA";
+  
+    _satellite.track("survey-invite-prompt");
+  
+  wpInvite.events.showInvite.on(function()
+    {
+      document.getElementById("cf_website").addEventListener("click", function(){
+      ConfirmitWaypointStaticLink(projectid,'website',false,true,true);
+    });
+      document.getElementById("cf_product").addEventListener("click", function(){
+      ConfirmitWaypointStaticLink(projectid,'product',false,true,true);
+    });
+      document.getElementById("cf_service").addEventListener("click", function(){
+       ConfirmitWaypointStaticLink(projectid,'service',false,true,true);
+    });
+    var itxts = getWaypointTexts(lmd.language);
+     ConfirmitLog(show,"set line1")
+    document.getElementById('cf_wp_l1').innerHTML = itxts.l1;
+     ConfirmitLog(show,"set line2")
+    document.getElementById('cf_wp_l2').innerHTML = itxts.l2;
+     ConfirmitLog(show,"set line3")
+    document.getElementById('cf_wp_l3').innerHTML = itxts.l3;
+     ConfirmitLog(show,"set line4")
+    document.getElementById('cf_wp_l4').innerHTML = itxts.l4;
+     ConfirmitLog(show,"set b1")
+    document.getElementById('cf_productt').innerHTML = itxts.b1;
+     ConfirmitLog(show,"set b2")
+    document.getElementById('cf_websitet').innerHTML = itxts.b2;
+     ConfirmitLog(show,"set b3")
+    document.getElementById('cf_servicet').innerHTML = itxts.b3;
+     ConfirmitLog(show,"set a1")
+    document.getElementsByClassName('cf-invite-wrapper')[0].setAttribute('aria-label', itxts.al1);
+     ConfirmitLog(show,"set a2")
+    document.getElementsByClassName('cf-invite__close')[0].setAttribute('aria-label', itxts.al2);
+    });
+}
+
+
+window.ConfirmitMotorolaCommentCard = function () {
+  ConfirmitStaticLink('p3094889898',true,false,false)
+}
+
+window.ConfirmitLenovoeServiceCommentCard = function () {
+  ConfirmitLenovoWaypoint('p3094258117',true,false,false);
+}
+
+
+ConfirmitLog(true,"CONF - Feedback Tab v1.3.2");
+
+window.ConfirmitFeedbackTab = function (projectid,donewWindow,showcLog,showtest) {
+var invite = 'Feedback1';
+var show = showcLog ? true : false;
+var lng = lmd.language;
+ConfirmitLog(show,lng);
+var itxts = getWaypointTexts(lmd.language);
+function doInvite()
+{
+  var loc = ""+document.location.href;
+  var feedbackInvite = api()
+  .invite(invite)
+  .show();
+
+  feedbackInvite.events.showInvite.on(function()
+    {
+	document.getElementById('cf_fbt_ivt').innerHTML = itxts.fb;
+	});
+  
+  feedbackInvite.events.acceptInvite.on( function()
+  {
+	ConfirmitStaticLink(projectid,false,false,true,true);
+  });
+}
+
+doInvite();
+  
+}
+
+
+// add check for russia / belarus
+try{
+	var rbcs = lmd.countrysource;
+	var rbcc = lmd.cc;
+    var rblcs = rbcs.toLowerCase();
+    var rblcc = rbcc.toLowerCase();
+	
+      	//console.log('countrysource: ' + lcs + '.');	
+	if( rblcs == 'ru' || rblcs == 'by' || rblcc == 'ru' || rblcc == 'by' )
+    {
+      	console.log('CC Checked.');
+		return;
+    }
+}
+catch(e)
+{
+	console.log('error reading CC info.');
+}
+
+
+
+// ****************  execute on url change ******************
+
+window.confirmitWatchUrlChange = function (callback) {
+    var loc = window.location.href, timer;
+    var check = function () {
+        timer && clearTimeout(timer);
+        if (window.location.href !== loc) {
+            loc = window.location.href;
+            callback(loc);
+        }
+        timer = setTimeout(check, 100);
+    };
+    check();
+};
+
+
+
+function execute() {
+  
+	try { 
+		tid = lmd.topicID 
+	} 
+	catch (e) 
+	{
+		ConfirmitLog(showLog,'topicID missing. exiting.');
+	}
+	
+	if( !tid )
+	{
+		ConfirmitLog(showLog,'topicID missing. exiting.');
+	}
+    else
+    {
+      ConfirmitLog(showLog,'topicID presnet: ' + tid );
+    }
+  
+function runMyFunction(){
+  
+var showLog = true;
+
+
+	
+var pageCount = +sessionStorage.getItem('conflespc');
+sessionStorage.setItem('conflespc', ++pageCount);
+console.log('page counter: ' + pageCount);
+
+			  
+				   
+
+ConfirmitLog(showLog,"store time of site load");
+var sltt = sessionStorage.getItem('CONFLSLT');
+if(!sltt)
+{
+  var sltd = new Date();
+  var sltt = sltd.getTime();
+  sessionStorage.setItem('CONFLSLT', sltt);
+}
+
+var pltd = new Date();
+var pltt = pltd.getTime();
+var slti = (pltt - sltt) / 1000
+console.log("interval since site entry: " + slti);
+
+ConfirmitLog(showLog, 'Enable p689671841256');
+
+var loc = document.location.href;
+var loclc = loc.toLowerCase();
+
+//var re = /(http|https):\/\/(uatesupport|uatpcsupport|uatdatacentersupport|uatlenovomobilesupport|uatsmartsupport).lenovo.com\/[a-z]+\/(it|en|fr|de|id|ja|ko|pt|ru|es)/i
+var re = /(http|https):\/\/(support|pcsupport|datacentersupport|lenovomobilesupport|smartsupport).lenovo.com\/[a-z]+/i
+var onPage = false;
+
+var test = re.test(loclc);
+if( test )
+{
+ onPage = true;
+}
+
+
+if( test )
+{
+ onPage = true; 
+ var re2 = /(http|https):\/\/(support|pcsupport|datacentersupport|lenovomobilesupport|smartsupport)/i
+ var test2 = re2.test(loclc)
+ if( test2 )
+ {
+	ConfirmitLog(showLog, 'on pcsupport/datacentersupport/lenovomobilesupport/smartsupport/support page... ');
+	var reb2 = /(\/solutions\/|\/parts|\/accessories|\/videos|\/repair)/i
+	var testb2 = reb2.test( loclc );
+	 if( testb2 )
+	 {
+		 onPage = false;
+		 ConfirmitLog(showLog, 'on solutions/parts/accessories/videos/repairs page.  Not running.');
+	 }
+ 
+	var reb6 = /(\/documents\/|\/product_security|\/playlist|\/nvideo|\/ytvideo)/i
+	var testb6 = reb6.test( loclc );
+	 if( testb6 )
+	 {
+		 onPage = false;
+		 ConfirmitLog(showLog, 'on documents/product_security/playlist/nvideo/ytvideo page.  Not running.');
+	 }
+  
+ }
+ 
+ var re3 = /(http|https):\/\/pcsupport/i
+ var test3 = re3.test(loclc)
+  if( test3 )
+ {
+	ConfirmitLog(showLog, 'on pcsupport page... ');
+	var reb3 = /(\/troubleshoot|\/diagnostics\/hw|\/threesteps|\/diagnostics-troubleshooting|\/lite-diagnostics)/i
+	var testb3 = reb3.test( loclc );
+	 if( testb3 )
+	 {
+		 onPage = false;
+		 ConfirmitLog(showLog, 'on troubleshoot/diagnostics/hw / threesteps/diagnostics-troubleshooting/lite-diagnostics page.  Not running.');
+	 }
+
+	var reb5 = /(\/automatic-driver-update|\/downloads\/ds|\/lenovorecovery)/i
+	var testb5 = reb5.test( loclc );
+	 if( testb5 )
+	 {
+		 onPage = false;
+		 ConfirmitLog(showLog, 'on /automatic-driver-update - /downloads/ds - /lenovorecovery.  Not running.');
+	 }
+  
+ }
+
+ var re4 = /(http|https):\/\/(pcsupport|lenovomobilesupport)/i
+ var test4 = re4.test(loclc)
+  if( test4 )
+ {
+	ConfirmitLog(showLog, 'on pcsupport / mobilesupport page ... ');
+	var reb4 = /\/warranty/i
+	var testb4 = reb4.test( loclc );
+	 if( testb4 )
+	 {
+		 onPage = false;
+		 ConfirmitLog(showLog, 'on /warranty page.  Not running.');
+	 }
+ }
+
+  				 ConfirmitLog(showLog, 'lmd.series: ' + lmd.series );    
+  
+      if( lmd.series )
+      {
+       var lmds = "" + lmd.series;
+       var lmdslc = lmds.toLowerCase();
+       if( lmdslc == "fccl" )
+       {
+				 onPage = false;
+				 ConfirmitLog(showLog, 'lmd.series: fccl.  Not running.');         
+       }
+      }
+  				 ConfirmitLog(showLog, 'lmd.series: ' + lmd.series );    
+    			 ConfirmitLog(showLog, 'lmd.series: ' + lmdslc ); 
+  
+}
+
+
+  
+/*
+   // code for checking particular subdomains, countries, languages
+   
+if(test)
+{
+   
+  ConfirmitLog(showLog,'On support page.  Checking for Canada and English.');
+  var lccc = getLCCCURL();
+  var plang = lccc.lc;
+  
+  var reCanada = /(http|https):\/\/(pcsupport).lenovo.com\/ca+/i
+  var testCA = reCanada.test(loclc);
+  var onPage = false;
+  
+  if( testCA && plang == "en" )
+  {
+  onpage = false;
+  ConfirmitLog(showLog,'On canada english page.  Not running.');   
+  }
+  else
+  {
+  ConfirmitLog(showLog,'Not on canada english page. running.');   
+  onPage = true;
+  }
+}
+
+*/
+
+if( onPage )
+{
+   ConfirmitLog(showLog,'page match found.  running.');
+   
+   ConfirmitLog(showLog,'*** checking / waiting for Quantum Metrics ***');
+
+	onStartConfQM = function()
+	{
+   		ConfirmitLog(showLog,'*** QM started.  Running Confirmit Survey. ***');      
+		ConfirmitExitSurvey('p689671841256',{'incidence':45,'pagecount':2,'delay':60,'expire':30},true,false);
+	}
+   
+	if (!window.QuantumMetricAPI)
+	{
+		ConfirmitLog(showLog,'*** Quantum Metrics not loaded.  Waiting for QM onload. ***');		
+		window.QuantumMetricOnload = function() {
+		ConfirmitLog(showLog,'*** Quantum Metrics loaded. adding qm onstart listener. ***');
+		window.QuantumMetricAPI.addEventListener('start', onStartConfQM());
+		};
+	} 
+	else
+	{
+		ConfirmitLog(showLog,'*** Quantum Metrics loaded. adding qm onstart listener. ***');
+		window.QuantumMetricAPI.addEventListener('start', onStartConfQM());
+	}
+}
+else
+{
+  ConfirmitLog(showLog,'no page match found.  exiting.');
+}
+
+
+ConfirmitLog(showLog, 'Enable p381748262651');
+
+var loc = document.location.href;
+var loclc = loc.toLowerCase();
+var re = /https:\/\/forums.lenovo.com/i
+
+var onPage = false;
+var test = re.test(loclc);
+if(test)
+{
+  onPage = true;
+}
+
+														 
+  
+  
+var plang = lmd.language ? lmd.language : "en";
+var pllc = plang.toLowerCase();
+var lngMatch = false;
+var lre = /(sk|en|de|pl|pt|es|tr|ua)/i;
+  // |ru removed
+var ltest = lre.test(pllc);
+if(ltest)
+{
+  lngMatch = true;
+}
+
+var fdelay = 60;
+var pgct = 2;
+  
+ConfirmitLog(showLog,'Site Delay: ' + fdelay);
+var fdelay = fdelay - slti;
+ConfirmitLog(showLog,'Page Delay: ' + fdelay);
+
+if( fdelay < 2 )
+{
+	fdelay = 2;
+ConfirmitLog(showLog,'Delay Minimum: ' + fdelay);
+}
+
+if( onPage )
+ 
+		 
+	   
+					
+   
+		   
+  
+													
+				 
+  
+ 
+		   
+  
+													
+				   
+  
+ 
+
+			
+{	
+	var lcv = ConfirmitCookies.get("LCV");
+	if( lcv == 1 )
+	{
+		ConfirmitLog(showLog,'visit count cookie present.');
+		// cookie present.
+		var lfv = sessionStorage.getItem('LFV');
+		if(lfv || ConfirmitCookies.get("LFV"))
+		{
+			// in 1st visit
+			onPage = false;
+			ConfirmitLog(showLog,'1st visit session variable present.  exiting.');
+		}	
+	}
+	else
+	{
+		ConfirmitLog(showLog,'visit count cookie missing. exiting');
+		ConfirmitCookies.set("LCV", '1', {path : '/', expiry : 2592000, secure:true, samesite: 'None'});
+		ConfirmitCookies.set("LFV", '1', {path : '/', expiry : 1800, secure:true, samesite: 'None'});
+		sessionStorage.setItem('LFV','1')
+		onPage = false;
+	}
+}
+
+if( onPage )
+{
+	var tid;
+	try { 
+		tid = lmd.topicID 
+	} 
+	catch (e) 
+	{
+		ConfirmitLog(showLog,'topicID missing. exiting.');
+		onPage = false;
+	}
+	
+	if( !tid )
+	{
+		ConfirmitLog(showLog,'topicID missing. exiting.');
+		onPage = false;		
+	}
+}
+  
+			 
+if( onPage )
+{
+   ConfirmitLog(showLog,'page match found.  running.');
+  if(lngMatch)
+  {
+    ConfirmitLog(showLog,'language match found.  running.')
+    ConfirmitExitSurvey('p381748262651',{'incidence':100,'pagecount':pgct,'delay':fdelay,'expire':90},true,false);   
+  }
+  else
+  {
+      ConfirmitLog(showLog,'no language match found.  exiting.');
+  }
+
+}
+else
+{
+  ConfirmitLog(showLog,'no page match found.  exiting.');
+}
+
+
+ConfirmitLog(showLog, 'Enable p3094891388');
+
+var loc = document.location.href;
+var loclc = loc.toLowerCase();
+var re = /(http|https):\/\/support.motorola.com\/[a-z]+\/(en|es)/i
+
+var onPage = false;
+var test = re.test(loclc);
+if(test)
+{
+  onPage = true;
+}
+
+if( onPage )
+{
+   ConfirmitLog(showLog,'page match found.  running.');
+   ConfirmitExitSurvey('p3094891388',{'incidence':30,'pagecount':2,'delay':4,'expire':90},true,false);
+}
+else
+{
+  ConfirmitLog(showLog,'no page match found.  exiting.');
+}
+  
+}
+  
+    const myTimeout = setTimeout(runMyFunction, 3000);
+
+}
+
+
+execute();
+window.confirmitWatchUrlChange(execute);
+};

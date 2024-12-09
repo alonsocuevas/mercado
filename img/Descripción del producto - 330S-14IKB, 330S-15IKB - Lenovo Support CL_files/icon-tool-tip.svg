@@ -1,0 +1,23 @@
+<svg id="icon_tool-tip" data-name="icon/tool-tip" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="12" height="12" viewBox="0 0 12 12">
+  <defs>
+    <clipPath id="clip-path">
+      <path id="路径_8" data-name="路径 8" d="M5.4-11H6.6v-3.6H5.4V-11ZM6-20a6.018,6.018,0,0,0-6,6A6.018,6.018,0,0,0,6-8a6.018,6.018,0,0,0,6-6,6.018,6.018,0,0,0-6-6ZM6-9.2A4.814,4.814,0,0,1,1.2-14,4.814,4.814,0,0,1,6-18.8,4.814,4.814,0,0,1,10.8-14,4.814,4.814,0,0,1,6-9.2Zm-.6-6.6H6.6V-17H5.4v1.2Z" transform="translate(0 20)" fill="#b8322e"/>
+    </clipPath>
+    <clipPath id="clip-path-2">
+      <rect id="矩形_2" data-name="矩形 2" width="120" height="120" fill="#b8322e"/>
+    </clipPath>
+    <clipPath id="clip-path-3">
+      <path id="路径_7" data-name="路径 7" d="M0-8H12V-20H0Z" transform="translate(0 20)" fill="#b8322e"/>
+    </clipPath>
+  </defs>
+  <g id="组_381" data-name="组 381" clip-path="url(#clip-path)">
+    <g id="组_380" data-name="组 380" transform="translate(-54 -54)" style="mix-blend-mode: normal;isolation: isolate">
+      <g id="组_379" data-name="组 379" clip-path="url(#clip-path-2)">
+        <g id="组_378" data-name="组 378" transform="translate(54 54)" clip-path="url(#clip-path-3)">
+          <path id="路径_5" data-name="路径 5" d="M-5-25H13V-7H-5Z" transform="translate(2 22)" fill="#b8322e"/>
+          <path id="路径_6" data-name="路径 6" d="M-95-115H31V11H-95Z" transform="translate(38 58)" fill="#b8322e"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

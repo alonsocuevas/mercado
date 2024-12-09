@@ -1,0 +1,156 @@
+window.DigitalFeedback['https://digitalfeedback.us.confirmit.com/api/digitalfeedback/loader/prod/scenario?programKey=wxdDyE&scenarioId=9072&programVersion=150'] = function (api) {
+ConfirmitHelper = {
+  
+	consoleLog : function(show,string){if(show){console.log("CONF: "+string)}},
+	
+	setCookie:function(b,c,a){b=[encodeURIComponent(b)+"="+encodeURIComponent(c)];a&&("expiry"in a&&("number"==typeof a.expiry&&(a.expiry=new Date(1E3*a.expiry+ +new Date)),b.push("expires="+a.expiry.toGMTString())),"domain"in a&&b.push("domain="+a.domain),"path"in a&&b.push("path="+a.path),"secure"in a&&a.secure&&b.push("secure"),"samesite"in a&&b.push("SameSite="+a.samesite));document.cookie=b.join("; ")},
+	
+	getCookie:function(b,c){for(var a=[],e=document.cookie.split(/; */),d=0;d<e.length;d++){var f=e[d].split("=");f[0]==encodeURIComponent(b)&&a.push(decodeURIComponent(f[1].replace(/\+/g,"%20")))}return c?a:a[0]},
+	
+    clearCookie:function(b){ConfirmitHelper.setCookie(b,'', {path : '/', expiry : -86400, secure:true, samesite: 'None'});},
+
+    getMeta:function(metaName){const metas = document.getElementsByTagName('meta'); for(let i = 0; i < metas.length; i++) { if (metas[i].getAttribute('name') === metaName) { return metas[i].getAttribute('content'); } } return ''; },
+
+	getLocation : function(){ var dlh = ""+document.location.href; return dlh.toLowerCase(); },
+
+  	getUrlParameter : function(name){name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]'); var regex = new RegExp('[\\?&]' + name + '=([^&#]*)'); var results = regex.exec(location.search); return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));},
+
+}
+
+ConfirmitHelper.doCommunityVerbatim = function()
+{
+  var vData = ConfirmitHelper.CESData;
+  vData.cvo = "1";
+
+//alert( 'verbatim survey' );
+api()
+  .container('CommunityVerbatimOnly')
+  .survey('p381748262651')
+  .data(vData)
+  .show()
+  .events.completeSurvey.on(
+  function() { 
+	var el = document.getElementById("cfsof");
+	ConfirmitHelper.trapFocus(el);
+  });
+}
+
+
+
+ConfirmitHelper.cf_ivtNoClicked = function(){
+document.getElementById("cfsof").style.display = "block";
+document.getElementById("cfivt").style.display = "none";
+var el = document.getElementById("cfsof");
+ConfirmitHelper.trapFocus(el);
+}
+
+ConfirmitHelper.cf_sOfClicked = function(){
+document.getElementById("cftyc").style.display = "block";
+document.getElementById("cfsof").style.display = "none";
+var el = document.getElementById("cftyc");
+ConfirmitHelper.trapFocus(el);
+}
+
+ConfirmitHelper.cf_iHsF = function(){
+document.getElementById("cftymsg").style.display = "block";
+document.getElementById("cftybtn").style.display = "none";
+ConfirmitHelper.doCommunityVerbatim();
+document.getElementById("cftybtn").tabIndex = -1;
+var el = document.getElementById("cfsof");
+ConfirmitHelper.trapFocus(el);
+}
+
+ConfirmitHelper.cf_iclsSur = function(){
+console.log('rerun focus');
+var el = document.getElementById("cfsof");
+ConfirmitHelper.trapFocus(el);
+}
+
+ConfirmitHelper.cf_oSClicked = function(){
+document.location.href="https://support.lenovo.com/contactus?linktrack=communitysurvey:contactus";
+}
+
+
+
+window.KeyboardCDF = {
+  
+  FocusIntoContainer: false,
+  ClosingTheLoop: false, 
+  
+  CloseTheLoop: function(container) {
+    this.ClosingTheLoop = true; 
+    container.addEventListener("keydown", function(e) {
+       var iframe = document.querySelectorAll('.cf-container iframe')[0];
+	  if (!e.shiftKey && e.key === 'Tab') { //tabbing forward
+        if (e.target.classList.contains("cf-container__close")) {
+          iframe.contentWindow.postMessage("MIF", iframe.src); //tell survey to Move focus Into the Frame so first focusable elem in survey
+          e.preventDefault();
+        }
+      }
+      else if (e.shiftKey && e.key === 'Tab') { //tabbing backward
+        if (e.target.classList.contains("cf-container__close")) {
+          iframe.contentWindow.postMessage("MTB", iframe.src); //tell survey to Move focus To the Bottom of the survey so last focusable elem
+          e.preventDefault();
+        }
+      }
+    });
+  },
+  
+  FixButtons: function(container) {
+    var btns = container.querySelectorAll('.cf-invite__button, .cf-invite__close, .cf-container__close');
+    for(var i = 0; i < btns.length; i++) {
+      btns[i].addEventListener("keydown", function(e) {
+        if (e.key === 'Enter' || e.key === 'Spacebar' || e.key === ' ') { 
+          e.preventDefault();
+          e.target.click();
+  		}
+      });
+    }
+  },
+
+  HandleMessage: function(event) { 
+    if (event.origin !== "https://survey.us.confirmit.com") { 
+      return 0;
+    }
+    if (event.data === "OPEN" && this.FocusIntoContainer == true) {
+      var iframe = document.querySelectorAll('.cf-container iframe')[0]; 
+      iframe.contentWindow.postMessage("MIF", "https://survey.us.confirmit.com"); 
+    }
+    if (event.data === "MTT" && this.ClosingTheLoop == true) { 
+      document.getElementsByClassName("cf-container__close")[0].focus();
+    }
+  }
+}; 
+
+window.addEventListener("message", function(e) {
+  KeyboardCDF.HandleMessage(e); 
+}, false);
+
+ConfirmitHelper.trapFocus = function(element) {
+  var focusableEls = element.querySelectorAll('a[href]:not([disabled]), button:not([disabled]), textarea:not([disabled]), input[type="text"]:not([disabled]), input[type="radio"]:not([disabled]), input[type="checkbox"]:not([disabled]), select:not([disabled]), [tabindex="0"]');
+  var firstFocusableEl = focusableEls[0];  
+  var lastFocusableEl = focusableEls[focusableEls.length - 1];
+  var KEYCODE_TAB = 9;
+
+  element.addEventListener('keydown', function(e) {
+    var isTabPressed = (e.key === 'Tab' || e.keyCode === KEYCODE_TAB);
+
+    if (!isTabPressed) { 
+      return; 
+    }
+
+    if ( e.shiftKey ) /* shift + tab */ {
+      if (document.activeElement === firstFocusableEl) {
+        lastFocusableEl.focus();
+          e.preventDefault();
+        }
+      } else /* tab */ {
+      if (document.activeElement === lastFocusableEl) {
+        firstFocusableEl.focus();
+          e.preventDefault();
+        }
+      }
+  });
+}
+
+};
